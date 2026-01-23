@@ -1,0 +1,7 @@
+cmakebuild.bat
+source-code/build/*
+chrono-r/bin/*
+chrono-r/resource-media/assets/gameplay/result-animation/frame/*
+*.import
+*.tmp
+*.translation

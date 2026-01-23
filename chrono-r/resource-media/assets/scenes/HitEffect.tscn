@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://bw6noq4kiklq"]
+
+[ext_resource type="Script" uid="uid://bl7lw6ju7p58q" path="res://hit_effect.gd" id="1_cf756"]
+
+[sub_resource type="Gradient" id="Gradient_ojgpx"]
+offsets = PackedFloat32Array(0, 0.39181286)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cf756"]
+gradient = SubResource("Gradient_ojgpx")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Curve" id="Curve_ojgpx"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cf756"]
+curve = SubResource("Curve_ojgpx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ojgpx"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 232.18999
+initial_velocity_max = 335.13998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.29999998
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_cf756")
+
+[node name="GPUParticles2D" type="GPUParticles2D"]
+emitting = false
+amount = 16
+texture = SubResource("GradientTexture2D_cf756")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ojgpx")
+script = ExtResource("1_cf756")

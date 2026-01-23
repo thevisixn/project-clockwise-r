@@ -1,0 +1,159 @@
+[gd_scene load_steps=19 format=3 uid="uid://db5wiuv5ue7ce"]
+
+[ext_resource type="Texture2D" uid="uid://f46pk4xqwcis" path="res://jmline.png" id="1_0cyf1"]
+[ext_resource type="Texture2D" uid="uid://dvapkbeml411f" path="res://circle.png" id="1_3emq6"]
+[ext_resource type="Texture2D" uid="uid://5v0vabj41mwn" path="res://onelanenote.svg" id="1_dc4le"]
+[ext_resource type="Texture2D" uid="uid://pm3qgf3nk5sd" path="res://alllanenote.svg" id="2_mge1i"]
+[ext_resource type="AudioStream" uid="uid://bw7pecgng2qvh" path="res://sound/sfx/singlesfx.wav" id="5_7ljjp"]
+[ext_resource type="AudioStream" uid="uid://df5rfrt2hsg2" path="res://sound/sfx/holdsfx.mp3" id="6_3s18r"]
+[ext_resource type="AudioStream" uid="uid://bfnvewm2fois" path="res://sound/sfx/reversesfx.wav" id="6_m6oq0"]
+[ext_resource type="PackedScene" uid="uid://bw6noq4kiklq" path="res://HitEffect.tscn" id="7_xssgh"]
+[ext_resource type="AudioStream" uid="uid://dgqs7gi3yg2i7" path="res://sound/sfx/overclock-heatsfx.wav" id="8_l8man"]
+[ext_resource type="Texture2D" uid="uid://ddmli65807td8" path="res://dot.svg" id="10_3s18r"]
+[ext_resource type="Texture2D" uid="uid://ddnw42lhw8e8p" path="res://background.jpg" id="10_7ljjp"]
+[ext_resource type="AudioStream" uid="uid://7q3c6j2oqakh" path="res://sound/sfx/atd-sfx.wav" id="10_pu6bo"]
+[ext_resource type="AudioStream" uid="uid://y8ib2xdjhl03" path="res://sound/sfx/aad-sfx.wav" id="11_5kvcy"]
+[ext_resource type="AudioStream" uid="uid://gjmt78k71xdi" path="res://sound/sfx/tfin-sfx.wav" id="12_khvcg"]
+[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://fonts/Quicksand.ttf" id="15_5kvcy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_khvcg"]
+font = ExtResource("15_5kvcy")
+font_size = 61
+outline_size = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ok3a"]
+font = ExtResource("15_5kvcy")
+font_size = 41
+outline_size = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_5kvcy"]
+font = ExtResource("15_5kvcy")
+font_size = 50
+outline_size = 3
+
+[node name="Playfield" type="Node2D"]
+scale = Vector2(0.3, 0.3)
+
+[node name="RhythmCircle" type="RhythmCircle" parent="."]
+tex_single = ExtResource("1_dc4le")
+tex_reverse = ExtResource("2_mge1i")
+tex_overclock = ExtResource("2_mge1i")
+tex_overheat = ExtResource("2_mge1i")
+base_radius = 0.0
+lane_gap = 0.0
+visible_window = 1.0
+tex_hold_cap = ExtResource("1_dc4le")
+hit_effect_scene = ExtResource("7_xssgh")
+
+[node name="RhythmGameController" type="RhythmGameController" parent="." node_paths=PackedStringArray("accuracy_label", "title_label", "difficulty_label", "score_label")]
+accuracy_label = NodePath("../CanvasLayer/AccuracyLabel")
+title_label = NodePath("../CanvasLayer/TitleLabel")
+difficulty_label = NodePath("../CanvasLayer/DiffLabel")
+score_label = NodePath("../CanvasLayer/ScoreLabel")
+sfx_result_master_volume_db = 5.0
+sfx_all_tuned_offset_db = 2.5
+sfx_full_adjusted_offset_db = 2.5
+sfx_tuning_finish_offset_db = 2.5
+tex_single = ExtResource("1_dc4le")
+tex_reverse = ExtResource("2_mge1i")
+tex_overclock = ExtResource("2_mge1i")
+tex_overheat = ExtResource("2_mge1i")
+tex_line = ExtResource("1_0cyf1")
+user_audio_offset = 0.042
+sfx_single = ExtResource("5_7ljjp")
+sfx_hold = ExtResource("6_3s18r")
+sfx_reverse = ExtResource("6_m6oq0")
+sfx_overclock = ExtResource("8_l8man")
+sfx_overheat = ExtResource("8_l8man")
+visible_window = 1.0
+hit_effect_scene = ExtResource("7_xssgh")
+vol_music_db = -5.0
+vol_sfx_single_db = 17.0
+vol_sfx_hold_db = 10.0
+vol_sfx_reverse_db = 5.0
+vol_sfx_overclock_db = 3.0
+vol_sfx_overheat_db = 3.0
+tex_background = ExtResource("10_7ljjp")
+sfx_all_tuned = ExtResource("10_pu6bo")
+sfx_full_adjusted = ExtResource("11_5kvcy")
+sfx_tuning_finish = ExtResource("12_khvcg")
+
+[node name="dot2" type="Sprite2D" parent="."]
+z_index = 25
+position = Vector2(693, 0)
+texture = ExtResource("10_3s18r")
+
+[node name="dot" type="Sprite2D" parent="."]
+z_index = 25
+position = Vector2(-693, 0)
+texture = ExtResource("10_3s18r")
+
+[node name="circle" type="Sprite2D" parent="."]
+visible = false
+z_index = -51
+position = Vector2(-693, 0)
+texture = ExtResource("1_3emq6")
+
+[node name="circle2" type="Sprite2D" parent="."]
+visible = false
+z_index = -51
+position = Vector2(693, 0)
+texture = ExtResource("1_3emq6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -442.0
+offset_top = 45.0
+offset_right = -31.0
+offset_bottom = 122.0
+grow_horizontal = 0
+text = "0000000"
+label_settings = SubResource("LabelSettings_khvcg")
+horizontal_alignment = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = -80.0
+offset_right = 911.0
+offset_bottom = -28.0
+grow_vertical = 0
+text = "悔_"
+label_settings = SubResource("LabelSettings_8ok3a")
+vertical_alignment = 2
+
+[node name="DiffLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -765.0
+offset_top = -80.0
+offset_right = -31.0
+offset_bottom = -25.369995
+grow_horizontal = 0
+grow_vertical = 0
+text = "Normal 10"
+label_settings = SubResource("LabelSettings_8ok3a")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="AccuracyLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -442.0
+offset_top = 125.0
+offset_right = -31.0
+offset_bottom = 188.0
+grow_horizontal = 0
+text = "0.0%"
+label_settings = SubResource("LabelSettings_5kvcy")
+horizontal_alignment = 2
