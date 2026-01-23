@@ -1,0 +1,147 @@
+[gd_scene load_steps=11 format=3 uid="uid://dv38efv7jisa6"]
+
+[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://resource-media/fonts/Quicksand.ttf" id="1_g4dtn"]
+[ext_resource type="Texture2D" uid="uid://1c53saqjyrxs" path="res://resource-media/assets/interface/song-select/song-select-bg.jpg" id="2_2q4xr"]
+[ext_resource type="PackedScene" uid="uid://ds81wlt7vcg4" path="res://resource-media/assets/scenes/beatmap_item.tscn" id="2_7wlwy"]
+[ext_resource type="Texture2D" uid="uid://ddkyw46w5y8p3" path="res://resource-media/assets/interface/song-select/song-select-info-ui.svg" id="3_gs6nk"]
+[ext_resource type="Texture2D" uid="uid://ovbg268xm5jy" path="res://resource-media/assets/interface/song-select/tittle-ui-bg.svg" id="3_sbnq3"]
+[ext_resource type="Texture2D" uid="uid://berbqxb37c1r7" path="res://resource-media/assets/interface/song-select/artist-ui-bg.svg" id="5_7wlwy"]
+[ext_resource type="Texture2D" uid="uid://leilw8gglf0r" path="res://resource-media/assets/interface/song-select/diff-ui-bg.svg" id="6_tf8ir"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rpdyl"]
+font = ExtResource("1_g4dtn")
+font_size = 41
+outline_size = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_28xip"]
+font = ExtResource("1_g4dtn")
+font_size = 32
+outline_size = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_n70jw"]
+font = ExtResource("1_g4dtn")
+font_size = 35
+outline_size = 3
+
+[node name="SongSelection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="TextureRect" parent="."]
+visible = false
+z_index = -10
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_2q4xr")
+
+[node name="SongSelectController" type="SongSelectController" parent="." node_paths=PackedStringArray("ui_grid", "ui_title", "ui_artist", "ui_difficulty")]
+ui_grid = NodePath("ScrollContainer/GridContainer")
+beatmap_item_scene = ExtResource("2_7wlwy")
+ui_title = NodePath("Title-BG/TitleLabel")
+ui_artist = NodePath("Artist-BG/ArtistLabel")
+ui_difficulty = NodePath("Diff-BG/DiffLabel")
+game_scene_path = "uid://8fdvrtca1dlu"
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Info" type="TextureRect" parent="SongSelectController"]
+z_index = -5
+layout_mode = 0
+offset_left = 39.0
+offset_top = 137.0
+offset_right = 978.0
+offset_bottom = 912.0
+texture = ExtResource("3_gs6nk")
+
+[node name="Title-BG" type="TextureRect" parent="SongSelectController"]
+z_index = -1
+layout_mode = 0
+offset_left = 39.0
+offset_top = 331.0
+offset_right = 978.0
+offset_bottom = 417.0
+texture = ExtResource("3_sbnq3")
+
+[node name="TitleLabel" type="Label" parent="SongSelectController/Title-BG"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 15.0
+offset_right = 892.0
+offset_bottom = 67.0
+text = "悔_"
+label_settings = SubResource("LabelSettings_rpdyl")
+vertical_alignment = 2
+
+[node name="Artist-BG" type="TextureRect" parent="SongSelectController"]
+z_index = -1
+layout_mode = 0
+offset_left = 39.0
+offset_top = 428.0
+offset_right = 978.0
+offset_bottom = 478.0
+texture = ExtResource("5_7wlwy")
+
+[node name="ArtistLabel" type="Label" parent="SongSelectController/Artist-BG"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 5.0
+offset_right = 892.0
+offset_bottom = 45.0
+text = "Essbee"
+label_settings = SubResource("LabelSettings_28xip")
+vertical_alignment = 2
+
+[node name="Diff-BG" type="TextureRect" parent="SongSelectController"]
+self_modulate = Color(1, 0.78431374, 0, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 39.0
+offset_top = 501.0
+offset_right = 449.0
+offset_bottom = 584.0
+texture = ExtResource("6_tf8ir")
+
+[node name="DiffLabel" type="Label" parent="SongSelectController/Diff-BG"]
+z_index = 3
+layout_mode = 0
+offset_left = 12.0
+offset_top = 19.0
+offset_right = 453.0
+offset_bottom = 63.0
+text = "Normal 10"
+label_settings = SubResource("LabelSettings_n70jw")
+vertical_alignment = 2
+
+[node name="Button" type="Button" parent="SongSelectController"]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 926.0
+offset_right = 389.0
+offset_bottom = 1080.0
+text = "Back"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SongSelectController"]
+z_index = 3
+custom_minimum_size = Vector2(800, 775)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1081.0
+offset_top = 137.0
+offset_right = -39.0
+offset_bottom = -168.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="SongSelectController/ScrollContainer"]
+z_index = 3
+layout_mode = 2
+columns = 3

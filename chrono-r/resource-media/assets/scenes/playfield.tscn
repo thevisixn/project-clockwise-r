@@ -1,20 +1,19 @@
-[gd_scene load_steps=19 format=3 uid="uid://db5wiuv5ue7ce"]
+[gd_scene load_steps=18 format=3 uid="uid://db5wiuv5ue7ce"]
 
-[ext_resource type="Texture2D" uid="uid://f46pk4xqwcis" path="res://jmline.png" id="1_0cyf1"]
-[ext_resource type="Texture2D" uid="uid://dvapkbeml411f" path="res://circle.png" id="1_3emq6"]
-[ext_resource type="Texture2D" uid="uid://5v0vabj41mwn" path="res://onelanenote.svg" id="1_dc4le"]
-[ext_resource type="Texture2D" uid="uid://pm3qgf3nk5sd" path="res://alllanenote.svg" id="2_mge1i"]
-[ext_resource type="AudioStream" uid="uid://bw7pecgng2qvh" path="res://sound/sfx/singlesfx.wav" id="5_7ljjp"]
-[ext_resource type="AudioStream" uid="uid://df5rfrt2hsg2" path="res://sound/sfx/holdsfx.mp3" id="6_3s18r"]
-[ext_resource type="AudioStream" uid="uid://bfnvewm2fois" path="res://sound/sfx/reversesfx.wav" id="6_m6oq0"]
-[ext_resource type="PackedScene" uid="uid://bw6noq4kiklq" path="res://HitEffect.tscn" id="7_xssgh"]
-[ext_resource type="AudioStream" uid="uid://dgqs7gi3yg2i7" path="res://sound/sfx/overclock-heatsfx.wav" id="8_l8man"]
-[ext_resource type="Texture2D" uid="uid://ddmli65807td8" path="res://dot.svg" id="10_3s18r"]
-[ext_resource type="Texture2D" uid="uid://ddnw42lhw8e8p" path="res://background.jpg" id="10_7ljjp"]
-[ext_resource type="AudioStream" uid="uid://7q3c6j2oqakh" path="res://sound/sfx/atd-sfx.wav" id="10_pu6bo"]
-[ext_resource type="AudioStream" uid="uid://y8ib2xdjhl03" path="res://sound/sfx/aad-sfx.wav" id="11_5kvcy"]
-[ext_resource type="AudioStream" uid="uid://gjmt78k71xdi" path="res://sound/sfx/tfin-sfx.wav" id="12_khvcg"]
-[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://fonts/Quicksand.ttf" id="15_5kvcy"]
+[ext_resource type="Texture2D" uid="uid://x3pliwmrk6ja" path="res://resource-media/assets/gameplay/jmline.png" id="1_0cyf1"]
+[ext_resource type="Texture2D" uid="uid://ufa6iv1exdwf" path="res://resource-media/assets/gameplay/onelanenote.svg" id="1_dc4le"]
+[ext_resource type="Texture2D" uid="uid://cndi27i487qq" path="res://resource-media/assets/gameplay/alllanenote.svg" id="2_mge1i"]
+[ext_resource type="AudioStream" uid="uid://d1pngju2gnnig" path="res://resource-media/sound/sfx/gameplay/hitsound/singlesfx.wav" id="5_7ljjp"]
+[ext_resource type="AudioStream" uid="uid://2uqq10girvuy" path="res://resource-media/sound/sfx/gameplay/hitsound/holdsfx.mp3" id="6_3s18r"]
+[ext_resource type="AudioStream" uid="uid://pxtq3mgeiju1" path="res://resource-media/sound/sfx/gameplay/hitsound/reversesfx.wav" id="6_m6oq0"]
+[ext_resource type="PackedScene" uid="uid://bw6noq4kiklq" path="res://resource-media/assets/scenes/HitEffect.tscn" id="7_xssgh"]
+[ext_resource type="AudioStream" uid="uid://wya5n12wofaj" path="res://resource-media/sound/sfx/gameplay/hitsound/overclock-heatsfx.wav" id="8_l8man"]
+[ext_resource type="Texture2D" uid="uid://ckehpwod3ahbl" path="res://resource-media/assets/gameplay/dot.svg" id="10_3s18r"]
+[ext_resource type="Texture2D" uid="uid://cq5fuef2vb688" path="res://resource-media/assets/bg_assets/background.jpg" id="10_7ljjp"]
+[ext_resource type="AudioStream" uid="uid://b2lpp6y6mswho" path="res://resource-media/sound/sfx/gameplay/result/atd-sfx.wav" id="10_pu6bo"]
+[ext_resource type="AudioStream" uid="uid://dl5est3vs3ysu" path="res://resource-media/sound/sfx/gameplay/result/aad-sfx.wav" id="11_5kvcy"]
+[ext_resource type="AudioStream" uid="uid://cq7bulghvhe3w" path="res://resource-media/sound/sfx/gameplay/result/tfin-sfx.wav" id="12_khvcg"]
+[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://resource-media/fonts/Quicksand.ttf" id="15_5kvcy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_khvcg"]
 font = ExtResource("15_5kvcy")
@@ -39,6 +38,7 @@ tex_single = ExtResource("1_dc4le")
 tex_reverse = ExtResource("2_mge1i")
 tex_overclock = ExtResource("2_mge1i")
 tex_overheat = ExtResource("2_mge1i")
+tex_anomaly = ExtResource("1_dc4le")
 base_radius = 0.0
 lane_gap = 0.0
 visible_window = 1.0
@@ -59,6 +59,7 @@ tex_reverse = ExtResource("2_mge1i")
 tex_overclock = ExtResource("2_mge1i")
 tex_overheat = ExtResource("2_mge1i")
 tex_line = ExtResource("1_0cyf1")
+tex_anomaly = ExtResource("1_dc4le")
 user_audio_offset = 0.042
 sfx_single = ExtResource("5_7ljjp")
 sfx_hold = ExtResource("6_3s18r")
@@ -87,18 +88,6 @@ texture = ExtResource("10_3s18r")
 z_index = 25
 position = Vector2(-693, 0)
 texture = ExtResource("10_3s18r")
-
-[node name="circle" type="Sprite2D" parent="."]
-visible = false
-z_index = -51
-position = Vector2(-693, 0)
-texture = ExtResource("1_3emq6")
-
-[node name="circle2" type="Sprite2D" parent="."]
-visible = false
-z_index = -51
-position = Vector2(693, 0)
-texture = ExtResource("1_3emq6")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

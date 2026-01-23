@@ -7,6 +7,7 @@
 #include <godot_cpp/classes/font_variation.hpp>
 #include <godot_cpp/classes/tween.hpp> 
 #include <godot_cpp/classes/property_tweener.hpp>
+#include "GameGlobal.h"
 
 using namespace godot;
 
@@ -235,7 +236,7 @@ void RhythmGameController::_ready()
     double centerX = screenSize.x / 2.0;
     double topY = 40.0;
 
-    Ref<Font> comboFont = ResourceLoader::get_singleton()->load("res://fonts/Quicksand.ttf");
+    Ref<Font> comboFont = ResourceLoader::get_singleton()->load("res://resource-media/fonts/Quicksand.ttf");
 
     comboLabel = memnew(Label);
     comboLabel->set_text(""); 
@@ -301,7 +302,7 @@ void RhythmGameController::_ready()
     uiLayer->add_child(resultAnim);
     
     
-    Ref<SpriteFrames> frames = ResourceLoader::get_singleton()->load("res://result/animated/result_animations.tres");
+    Ref<SpriteFrames> frames = ResourceLoader::get_singleton()->load("res://resource-media/assets/gameplay/result-animation/animated/result_animations.tres");
 
     if (frames.is_valid()) {
         resultAnim->set_sprite_frames(frames);
@@ -351,9 +352,17 @@ void RhythmGameController::_ready()
 
     isAllPerfect = true;
     isFullCombo = true;
+    String mapToLoad = "";
+    if (!GameGlobal::selectedMapPath.empty()) {
+        mapToLoad = String(GameGlobal::selectedMapPath.c_str());
+    }
     
-    load_beatmap_from_csv("res://map/Template-ChronoR-BeatMap-hui.csv");
-    String fullPath = ProjectSettings::get_singleton()->globalize_path("res://sound/music/hui_.wav");
+    if (mapToLoad == "") {
+        mapToLoad = "res://resource-media/map/Template-ChronoR-BeatMap-hui.csv"; 
+    }
+
+    load_beatmap_from_csv(mapToLoad);
+    String fullPath = ProjectSettings::get_singleton()->globalize_path("res://resource-media/sound/music/demo-sample/hui_.wav");
     audioEngine->play_audio(fullPath);
 }
 
