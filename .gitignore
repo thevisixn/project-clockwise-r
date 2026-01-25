@@ -3,6 +3,7 @@ cmakecompile.bat
 source-code/build/*
 chrono-r/bin/*
 chrono-r/resource-media/assets/gameplay/result-animation/frame/*
+compile_commands.json
 *.import
 *.tmp
 *.translation
@@ -12,3 +13,6 @@ chrono-r/resource-media/assets/gameplay/result-animation/frame/*
 *.pdb
 *.obj
 *.o
+TODO.md
+.clang-format
+source-code/.cache
