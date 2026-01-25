@@ -1,6 +1,7 @@
 #pragma once
 #include <godot_cpp/variant/string.hpp>
 #include <vector>
+#include "godot_cpp/classes/node.hpp"
 using namespace godot;
 
 enum NoteType {
@@ -9,7 +10,7 @@ enum NoteType {
     NOTE_REVERSE,
     NOTE_OVERCLOCK,
     NOTE_OVERHEAT,
-    NOTE_ANORMALY 
+    NOTE_ANORMALY
 };
 
 enum HitResult {
@@ -19,6 +20,16 @@ enum HitResult {
     RESULT_PERFECT
 };
 
+struct MapMetadata {
+    String title;
+    String artist;
+    String difficulty;
+    String level;
+    String coverPath;
+    String audioPath;
+    String csvPath;
+};
+
 struct NoteData {
     double time;
     int lane;
@@ -26,10 +37,10 @@ struct NoteData {
     double param;
     double param2;
     double param3;
-    
+
     double endTime = 0.0;
     bool isHolding = false;
-    
+
     bool isHit = false;
     bool isProcessed = false;
     HitResult finalResult = RESULT_NONE;
@@ -55,10 +66,9 @@ struct BeatmapData {
     String illustrator;
     String description;
 
-
     std::vector<TimingPoint> timingPoints;
 
     std::vector<NoteData> leftCircleNotes;
     std::vector<NoteData> rightCircleNotes;
-    
+
 };

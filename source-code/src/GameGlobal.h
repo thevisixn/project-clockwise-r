@@ -7,6 +7,8 @@ namespace godot {
 class GameGlobal {
 public:
     static std::string selectedMapPath;
+
+    static std::string selectedAudioPath;
 };
 
 
