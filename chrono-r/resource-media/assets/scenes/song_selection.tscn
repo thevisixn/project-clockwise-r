@@ -40,6 +40,7 @@ offset_bottom = 1080.0
 texture = ExtResource("2_2q4xr")
 
 [node name="SongSelectController" type="SongSelectController" parent="." node_paths=PackedStringArray("ui_grid", "ui_title", "ui_artist", "ui_difficulty")]
+grid_separation_v = 1
 ui_grid = NodePath("ScrollContainer/GridContainer")
 beatmap_item_scene = ExtResource("2_7wlwy")
 ui_title = NodePath("Title-BG/TitleLabel")
@@ -129,20 +130,24 @@ text = "Back"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SongSelectController"]
 z_index = 3
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1081.0
+offset_left = 253.0
 offset_top = 137.0
-offset_right = -39.0
+offset_right = 773.0
 offset_bottom = -168.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 0
 
 [node name="GridContainer" type="GridContainer" parent="SongSelectController/ScrollContainer"]
 z_index = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
 columns = 3

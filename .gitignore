@@ -1,5 +1,5 @@
 cmakebuild.bat
-cmakecompile.bat
+cmakecleanbuild.bat
 source-code/build/*
 chrono-r/bin/*
 chrono-r/resource-media/assets/gameplay/result-animation/frame/*
@@ -14,6 +14,6 @@ compile_commands.json
 *.obj
 *.o
 TODO.md
-.clang-format
+.clangd
 source-code/.cache
 .zed

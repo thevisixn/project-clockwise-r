@@ -20,7 +20,7 @@ class SongSelectController : public Control {
 private:
     int currentSelectionIndex = -1;
 
-    Vector2 itemSize = Vector2(800, 100);
+    Vector2 itemSize = Vector2(100, 800);
 
     int gridHSeparation = 20;
     int gridVSeparation = 20;
