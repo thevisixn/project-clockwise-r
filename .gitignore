@@ -16,3 +16,4 @@ compile_commands.json
 TODO.md
 .clang-format
 source-code/.cache
+.zed
