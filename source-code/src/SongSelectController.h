@@ -29,10 +29,21 @@ private:
   Label *difficultyLabel = nullptr;
   Label *levelLabel = nullptr;
 
-  // 🔥 [เพิ่ม] UI สำหรับ Score, Grade และ Background
+  Button *navMainMenuBtn = nullptr;
+  Button *navSettingsBtn = nullptr;
+  Button *navPlayBtn = nullptr;
+  Button *navShopBtn = nullptr;
+  Button *navCreditBtn = nullptr;
+  Button *navExitBtn = nullptr;
+
+  String mainMenuScenePath = "res://resource-media/assets/scenes/MainMenu.tscn";
+
   Label *scoreLabel = nullptr;
   Label *gradeLabel = nullptr;
   TextureRect *infoBackgroundRect = nullptr;
+
+
+  Button *backButton = nullptr;
 
   GridContainer *gridContainer = nullptr;
   Ref<PackedScene> beatmapItemScene;
@@ -48,6 +59,18 @@ private:
   void process_map_file(String filePath);
 
 public:
+
+
+  void _on_back_button_pressed();
+
+
+  void set_back_button(Button *btn) { backButton = btn; }
+  Button *get_back_button() const { return backButton; }
+
+
+  void set_main_menu_scene_path(String path) { mainMenuScenePath = path; }
+  String get_main_menu_scene_path() const { return mainMenuScenePath; }
+
   void _ready() override;
 
   void _on_item_clicked(int index);
@@ -97,4 +120,4 @@ protected:
   static void _bind_methods();
 };
 
-} // namespace godot
+}

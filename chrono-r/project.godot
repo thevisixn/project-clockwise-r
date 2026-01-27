@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="ChronoR"
-run/main_scene="uid://dv38efv7jisa6"
+run/main_scene="uid://0oya65g50vk1"
 config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=500
 config/icon="res://icon.svg"

@@ -8,6 +8,7 @@
 #include "SongSelectController.h"
 #include "BeatmapItem.h"
 #include "MainMenuController.h"
+#include "NavbarController.h"
 
 using namespace godot;
 
@@ -23,6 +24,7 @@ void initialize_chronor_module(ModuleInitializationLevel p_level) {
     ClassDB::register_class<SongSelectController>();
     ClassDB::register_class<BeatmapItem>();
     ClassDB::register_class<MainMenuController>();
+    ClassDB::register_class<NavbarController>();
 }
 
 void uninitialize_chronor_module(ModuleInitializationLevel p_level) {

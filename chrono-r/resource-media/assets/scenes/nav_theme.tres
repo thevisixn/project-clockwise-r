@@ -1,0 +1,39 @@
+[gd_resource type="Theme" format=3 uid="uid://ti3efckvmcab"]
+
+[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://resource-media/fonts/Quicksand.ttf" id="1_eqdfj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ljpex"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.78039217, 0.78039217, 0.78039217, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p73ng"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.56078434, 0.7254902, 0.78039217, 1)
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3morp"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.3318, 0.67545, 0.79, 1)
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cn2hm"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.1452, 0.3663, 0.44, 1)
+corner_detail = 20
+
+[resource]
+Button/colors/font_outline_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+Button/constants/icon_max_width = 72
+Button/constants/outline_size = 5
+Button/font_sizes/font_size = 46
+Button/fonts/font = ExtResource("1_eqdfj")
+Button/styles/disabled = SubResource("StyleBoxFlat_ljpex")
+Button/styles/hover = SubResource("StyleBoxFlat_p73ng")
+Button/styles/normal = SubResource("StyleBoxFlat_3morp")
+Button/styles/pressed = SubResource("StyleBoxFlat_cn2hm")

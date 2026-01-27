@@ -1,0 +1,171 @@
+[gd_scene format=3 uid="uid://bcgm107hlicuk"]
+
+[ext_resource type="Texture2D" uid="uid://bsqy5fdumsw7p" path="res://resource-media/assets/interface/icon/toMainUI-Btn.svg" id="1_df28o"]
+[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://resource-media/fonts/Quicksand.ttf" id="1_t5fkq"]
+[ext_resource type="Theme" uid="uid://ti3efckvmcab" path="res://resource-media/assets/scenes/nav_theme.tres" id="1_yloux"]
+[ext_resource type="Texture2D" uid="uid://cs80310eunenp" path="res://resource-media/assets/interface/icon/storeUI-Btn.svg" id="3_6f1p5"]
+[ext_resource type="Texture2D" uid="uid://bi50obgc11ehx" path="res://resource-media/assets/interface/icon/creditUI-Btn.svg" id="4_yloux"]
+[ext_resource type="Texture2D" uid="uid://c750uymbk5qnp" path="res://resource-media/assets/interface/icon/settingUI-Btn.svg" id="5_c8dhj"]
+[ext_resource type="Texture2D" uid="uid://gbtenlurpsfl" path="res://resource-media/assets/interface/icon/exitUI-Btn.svg" id="6_ljpex"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_df28o"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.33333334, 0.6745098, 0.7882353, 1)
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6f1p5"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.14509805, 0.3647059, 0.4392157, 1)
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yloux"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.56078434, 0.7254902, 0.78039217, 1)
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c8dhj"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.78, 0.78, 0.78, 1)
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2c5h"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.31199998, 0.78, 0.5304, 1)
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ljpex"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.3137255, 0.78039217, 0.5294118, 1)
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p73ng"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.14509805, 0.4392157, 0.28235295, 1)
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3morp"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.56078434, 0.78039217, 0.6627451, 1)
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8imu"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.78, 0.31199998, 0.31199998, 1)
+corner_radius_bottom_right = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6hkil"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.44, 0.1452, 0.1452, 1)
+corner_radius_bottom_right = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vbx4j"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.78, 0.5616, 0.5616, 1)
+corner_radius_bottom_right = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3ja0"]
+content_margin_left = 33.0
+content_margin_right = 37.0
+content_margin_bottom = 9.0
+bg_color = Color(0.78039217, 0.78039217, 0.78039217, 1)
+corner_radius_bottom_right = 64
+corner_detail = 20
+
+[node name="TopNavbar" type="NavbarController" unique_id=1651173040 node_paths=PackedStringArray("ui_main_menu_btn", "ui_settings_btn", "ui_play_btn", "ui_shop_btn", "ui_credit_btn", "ui_exit_btn")]
+ui_main_menu_btn = NodePath("HBoxContainer/Main")
+ui_settings_btn = NodePath("HBoxContainer/Config")
+ui_play_btn = NodePath("HBoxContainer/Play")
+ui_shop_btn = NodePath("HBoxContainer/Shop")
+ui_credit_btn = NodePath("HBoxContainer/Credit")
+ui_exit_btn = NodePath("HBoxContainer/Exit")
+main_menu_path = "uid://0oya65g50vk1"
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+scale = Vector2(0.5, 0.5)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2040262927]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -847.5961
+offset_right = 847.5961
+offset_bottom = 133.0
+grow_horizontal = 2
+theme = ExtResource("1_yloux")
+alignment = 1
+
+[node name="Main" type="Button" parent="HBoxContainer" unique_id=1479694541]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_df28o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6f1p5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yloux")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_c8dhj")
+theme_override_styles/focus = SubResource("StyleBoxFlat_e2c5h")
+action_mode = 0
+icon = ExtResource("1_df28o")
+
+[node name="Play" type="Button" parent="HBoxContainer" unique_id=266245678]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_outline_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_constants/outline_size = 7
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("1_t5fkq")
+theme_override_font_sizes/font_size = 58
+theme_override_styles/normal = SubResource("StyleBoxFlat_ljpex")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p73ng")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3morp")
+text = "PLAY"
+icon_alignment = 1
+expand_icon = true
+
+[node name="Shop" type="Button" parent="HBoxContainer" unique_id=1950133183]
+layout_mode = 2
+icon = ExtResource("3_6f1p5")
+
+[node name="Credit" type="Button" parent="HBoxContainer" unique_id=891732001]
+layout_mode = 2
+icon = ExtResource("4_yloux")
+
+[node name="Config" type="Button" parent="HBoxContainer" unique_id=1406029263]
+layout_mode = 2
+icon = ExtResource("5_c8dhj")
+
+[node name="Exit" type="Button" parent="HBoxContainer" unique_id=2106871020]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_n8imu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6hkil")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vbx4j")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_d3ja0")
+icon = ExtResource("6_ljpex")

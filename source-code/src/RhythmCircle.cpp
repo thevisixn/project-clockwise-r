@@ -8,7 +8,7 @@
 using namespace godot;
 
 void RhythmCircle::_bind_methods() {
-    
+
     ClassDB::bind_method(D_METHOD("set_tex_single", "texture"), &RhythmCircle::set_tex_single);
     ClassDB::bind_method(D_METHOD("get_tex_single"), &RhythmCircle::get_tex_single);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "tex_single", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_tex_single", "get_tex_single");
@@ -28,7 +28,7 @@ void RhythmCircle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_tex_line", "texture"), &RhythmCircle::set_tex_line);
     ClassDB::bind_method(D_METHOD("get_tex_line"), &RhythmCircle::get_tex_line);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "tex_line", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_tex_line", "get_tex_line");
-    
+
     ClassDB::bind_method(D_METHOD("set_tex_anomaly", "texture"), &RhythmCircle::set_tex_anomaly);
     ClassDB::bind_method(D_METHOD("get_tex_anomaly"), &RhythmCircle::get_tex_anomaly);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "tex_anomaly", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_tex_anomaly", "get_tex_anomaly");
@@ -52,13 +52,13 @@ void RhythmCircle::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_tex_hold_cap", "texture"), &RhythmCircle::set_tex_hold_cap);
     ClassDB::bind_method(D_METHOD("get_tex_hold_cap"), &RhythmCircle::get_tex_hold_cap);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "tex_hold_cap", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_tex_hold_cap", "get_tex_hold_cap");
-    
+
     ClassDB::bind_method(D_METHOD("set_hit_effect_scene", "scene"), &RhythmCircle::set_hit_effect_scene);
     ClassDB::bind_method(D_METHOD("get_hit_effect_scene"), &RhythmCircle::get_hit_effect_scene);
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "hit_effect_scene", PROPERTY_HINT_RESOURCE_TYPE, "PackedScene"), "set_hit_effect_scene", "get_hit_effect_scene");
 
-    ADD_SIGNAL(MethodInfo("on_hit_judgement", 
-        PropertyInfo(Variant::STRING, "result"), 
+    ADD_SIGNAL(MethodInfo("on_hit_judgement",
+        PropertyInfo(Variant::STRING, "result"),
         PropertyInfo(Variant::INT, "combo")
     ));
 }
@@ -70,13 +70,13 @@ void RhythmCircle::_ready() {
     judgementLine = memnew(Sprite2D);
     if (texLine.is_valid()) {
         judgementLine->set_texture(texLine);
-        
+
         Vector2 s = texLine->get_size();
         judgementLine->set_offset(Vector2(0, -s.y / 2));
     }
-    judgementLine->set_z_index(10); 
+    judgementLine->set_z_index(10);
     add_child(judgementLine);
-    
+
     for (int i = 0; i < poolSize; i++) {
         AudioStreamPlayer* p = memnew(AudioStreamPlayer);
         p->set_max_polyphony(1);
@@ -86,10 +86,10 @@ void RhythmCircle::_ready() {
     }
     for (int i = 0; i < totalLanes; i++) {
         Line2D* line = memnew(Line2D);
-        
+
         double r = baseRadius - (i * laneGap);
         int segments = 128;
-        
+
         for (int j = 0; j <= segments; j++) {
             double angle = (Math_PI * 2 * j) / segments;
             Vector2 p(Math::sin(angle) * r, -Math::cos(angle) * r);
@@ -99,8 +99,8 @@ void RhythmCircle::_ready() {
         line->set_width(2.0);
         line->set_default_color(Color(1, 1, 1, 0.25));
         line->set_texture_mode(Line2D::LINE_TEXTURE_NONE);
-        
-        line->set_z_index(-50); 
+
+        line->set_z_index(-50);
 
         add_child(line);
         trackLines.push_back(line);
@@ -112,7 +112,7 @@ AudioStreamPlayer* RhythmCircle::get_free_sfx_player() {
     for (auto* p : sfxPool) {
         if (!p->is_playing()) return p;
     }
-    return sfxPool[0]; 
+    return sfxPool[0];
 }
 
 
@@ -136,11 +136,11 @@ void RhythmCircle::_draw() {
 
     for (size_t i = 0; i < notes.size(); ++i) {
         if (notes[i].isHit && notes[i].finalResult != RESULT_MISS) {
-            
+
             if (i < noteSprites.size() && noteSprites[i]->is_visible()) {
-                
+
                 Sprite2D* s = noteSprites[i];
-                
+
                 Color strokeColor = Color(1, 1, 1);
                 if (notes[i].finalResult == RESULT_PERFECT) {
                     strokeColor = Color(1, 0.9, 0.2);
@@ -150,13 +150,13 @@ void RhythmCircle::_draw() {
 
                 strokeColor.a = s->get_modulate().a;
 
-                double currentRadius = 32.0; 
+                double currentRadius = 32.0;
 
                 if (s->get_texture().is_valid()) {
                     double scaleWidth = s->get_texture()->get_width();
                     currentRadius = scaleWidth * s->get_scale().x;
                 }
-                
+
                 draw_arc(s->get_position(), currentRadius, 0, Math_PI * 2, 64, strokeColor, 6.0);
             }
         }
@@ -165,9 +165,9 @@ void RhythmCircle::_draw() {
 
 void RhythmCircle::add_note(NoteData note) {
     notes.push_back(note);
-    
+
     Sprite2D* s = memnew(Sprite2D);
-    
+
     switch (note.type) {
         case NOTE_SINGLE:
         case NOTE_HOLD:
@@ -185,7 +185,7 @@ void RhythmCircle::add_note(NoteData note) {
         case NOTE_OVERCLOCK:
             if (texOverclock.is_valid()) s->set_texture(texOverclock);
             else if (texSingle.is_valid()) s->set_texture(texSingle);
-            
+
             s->set_modulate(Color(0.0, 1.0, 0.0));
             s->set_z_index(-2);
             break;
@@ -205,7 +205,7 @@ void RhythmCircle::add_note(NoteData note) {
             s->set_z_index(-1);
             break;
     }
-    
+
     add_child(s);
     noteSprites.push_back(s);
     move_child(s, 0);
@@ -214,33 +214,33 @@ void RhythmCircle::add_note(NoteData note) {
         l->set_visible(false);
         l->set_width(40.0);
         l->set_texture_mode(Line2D::LINE_TEXTURE_TILE);
-        
+
         if (texHoldTail.is_valid()) {
             l->set_texture(texHoldTail);
         }
-        
-        l->set_z_index(-3); 
+
+        l->set_z_index(-3);
 
         Ref<Gradient> grad;
         grad.instantiate();
-        
-        grad->set_color(0, Color(1, 1, 1, 1)); 
-        grad->set_color(1, Color(1, 1, 1, 1)); 
-        
+
+        grad->set_color(0, Color(1, 1, 1, 1));
+        grad->set_color(1, Color(1, 1, 1, 1));
+
         l->set_gradient(grad);
 
         add_child(l);
         noteTails.push_back(l);
 
         Sprite2D* cap = memnew(Sprite2D);
-        
+
         if (note.type == NOTE_HOLD) {
             if (texHoldCap.is_valid()) cap->set_texture(texHoldCap);
             else if (texSingle.is_valid()) cap->set_texture(texSingle);
 
             cap->set_z_index(-2);
             cap->set_visible(false);
-        } 
+        }
         else {
             cap->set_visible(false);
         }
@@ -252,14 +252,14 @@ void RhythmCircle::add_note(NoteData note) {
 double RhythmCircle::calculate_angle_at_time(double targetTime) {
     double accumulatedAngle = 0.0;
     double lastTime = 0.0;
-    
+
     double localBPM = startBPM;
-    double localNum = 4.0; 
+    double localNum = 4.0;
     double localDen = 4.0;
 
     double barLength = localNum * (4.0 / localDen);
-    double localSpeed = localBPM / (60.0 * barLength); 
-    
+    double localSpeed = localBPM / (60.0 * barLength);
+
     double currentDir = 1.0;
 
     for (const auto& note : notes) {
@@ -276,17 +276,17 @@ double RhythmCircle::calculate_angle_at_time(double targetTime) {
             currentDir *= -1.0;
         }
         else if (note.type == NOTE_OVERCLOCK || note.type == NOTE_OVERHEAT) {
-            localSpeed *= note.param; 
+            localSpeed *= note.param;
         }
         else if (note.type == NOTE_ANORMALY) {
             localBPM = note.param;
-            
+
             if (note.param2 > 0.0) localNum = note.param2;
             if (note.param3 > 0.0) localDen = note.param3;
 
             barLength = localNum * (4.0 / localDen);
             localSpeed = localBPM / (60.0 * barLength);
-            
+
         }
     }
 
@@ -300,8 +300,8 @@ double RhythmCircle::calculate_angle_at_time(double targetTime) {
 
 Vector2 RhythmCircle::get_position_on_circle(double angleRad, double laneIndex) {
     double r = baseRadius - (laneIndex * laneGap);
-    
-    
+
+
     return Vector2(
         Math::sin(angleRad) * r,
         -Math::cos(angleRad) * r
@@ -316,7 +316,7 @@ double RhythmCircle::get_closest_hittable_distance(double currentAudioTime) {
         if (note.isHit) continue;
 
         double timeDiff = note.time - currentAudioTime;
-        
+
         double hitWindow = 0.15;
 
         if (std::abs(timeDiff) <= hitWindow) {
@@ -335,7 +335,7 @@ void RhythmCircle::clear_simultaneous_anomaly(double hitTime) {
         if (!note.isHit && note.type == NOTE_ANORMALY) {
             if (std::abs(note.time - hitTime) < 0.001) {
                 note.isHit = true;
-                
+
             }
         }
     }
@@ -345,11 +345,11 @@ void RhythmCircle::force_hit_anomaly(double targetTime) {
     for (int i = 0; i < notes.size(); ++i) {
         if (!notes[i].isHit && notes[i].type == NOTE_ANORMALY) {
             if (Math::abs(notes[i].time - targetTime) <= 0.2) {
-                
+
                 notes[i].finalResult = RESULT_PERFECT;
-                
+
                 on_note_hit(i, RESULT_PERFECT);
-                
+
                 double angle = calculate_angle_at_time(notes[i].time);
                 Vector2 hitPos = get_position_on_circle(angle, 0.5);
                 spawn_hit_effect(hitPos, Color(1, 0.9, 0.2));
@@ -364,15 +364,15 @@ void RhythmCircle::process_input(int inputLane, double currentAudioTime) {
     double minDiff = 999999.0;
 
     for (size_t i = 0; i < notes.size(); ++i) {
-        if (notes[i].isHit) continue; 
-        
-        bool checkLane = (inputLane != -1); 
+        if (notes[i].isHit) continue;
+
+        bool checkLane = (inputLane != -1);
         bool isSpecial = (notes[i].type == NOTE_REVERSE || notes[i].type == NOTE_OVERCLOCK || notes[i].type == NOTE_OVERHEAT || notes[i].type == NOTE_ANORMALY);
-        
+
         if (checkLane && !isSpecial && notes[i].lane != inputLane) continue;
 
         double diff = Math::abs(currentAudioTime - notes[i].time);
-        
+
         if (diff <= hitWindowMiss && diff < minDiff) {
             minDiff = diff;
             bestNoteIndex = i;
@@ -383,7 +383,7 @@ void RhythmCircle::process_input(int inputLane, double currentAudioTime) {
         HitResult result = RESULT_MISS;
         double diff = notes[bestNoteIndex].time - currentAudioTime;
         String resultName = "MISS";
-        
+
         if (std::abs(diff) <= hitWindowPerfect) { result = RESULT_PERFECT; resultName = "PERFECT"; currentCombo++; }
         else if (std::abs(diff) <= hitWindowGood) { result = RESULT_GOOD; resultName = "GOOD"; currentCombo++; }
         else { result = RESULT_MISS; resultName = "MISS"; currentCombo = 0; }
@@ -411,7 +411,7 @@ void RhythmCircle::process_input(int inputLane, double currentAudioTime) {
 
 void RhythmCircle::on_note_hit(int index, HitResult result) {
     if (index >= notes.size()) return;
-    
+
     if (sfxSingle.is_valid()) {
         AudioStreamPlayer* p = get_free_sfx_player();
         p->set_stream(sfxSingle);
@@ -427,9 +427,9 @@ void RhythmCircle::on_note_hit(int index, HitResult result) {
             specialSFX = sfxReverse;
             targetVolume = volReverse;
             break;
-        case NOTE_ANORMALY: 
+        case NOTE_ANORMALY:
             specialSFX = sfxReverse;
-            targetVolume = volReverse; 
+            targetVolume = volReverse;
             break;
         case NOTE_OVERCLOCK:
             specialSFX = sfxOverclock;
@@ -440,7 +440,7 @@ void RhythmCircle::on_note_hit(int index, HitResult result) {
             targetVolume = volOverheat;
             break;
         case NOTE_HOLD:
-            specialSFX = sfxHold; 
+            specialSFX = sfxHold;
             targetVolume = volHold;
             break;
     }
@@ -459,18 +459,18 @@ void RhythmCircle::on_note_hit(int index, HitResult result) {
         notes[index].isHit = true;
         notes[index].isHolding = true;
 
-        
+
         UtilityFunctions::print("HOLD START!");
-        return; 
+        return;
     }
     notes[index].isHit = true;
-    
+
     if (index < noteSprites.size()) {
 
         Color c = noteSprites[index]->get_modulate();
-        c.a = 1.0; 
+        c.a = 1.0;
         noteSprites[index]->set_modulate(c);
-        
+
         noteSprites[index]->set_z_index(9);
         noteSprites[index]->set_visible(true);
         UtilityFunctions::print(result == RESULT_PERFECT ? "PERFECT!" : "GOOD!");
@@ -488,14 +488,14 @@ void RhythmCircle::update_state(double audioTime, double delta) {
 
     for (size_t i = 0; i < notes.size(); ++i) {
         double timeDiff = notes[i].time - audioTime;
-        
+
         if (timeDiff > visibleWindow) {
             if (i < noteSprites.size()) noteSprites[i]->set_visible(false);
             if (i < noteTails.size()) noteTails[i]->set_visible(false);
             if (i < noteCaps.size()) noteCaps[i]->set_visible(false);
-            continue; 
+            continue;
         }
-        
+
         if (timeDiff < -0.5 && !notes[i].isHolding) {
              if (i < noteSprites.size()) noteSprites[i]->set_visible(false);
              if (i < noteTails.size()) noteTails[i]->set_visible(false);
@@ -504,10 +504,10 @@ void RhythmCircle::update_state(double audioTime, double delta) {
         }
 
         if (!notes[i].isHit) {
-            if (audioTime > notes[i].time + hitWindowMiss) { 
-                notes[i].isHit = true; 
+            if (audioTime > notes[i].time + hitWindowMiss) {
+                notes[i].isHit = true;
                 notes[i].finalResult = RESULT_MISS;
-                
+
                 currentCombo = 0;
                 emit_signal("on_hit_judgement", "MISS", 0);
             }
@@ -515,30 +515,30 @@ void RhythmCircle::update_state(double audioTime, double delta) {
 
         double ratio = 1.0 - (timeDiff / visibleWindow);
         ratio = std::clamp(ratio, 0.0, 1.0);
-        
+
         if (i < noteTails.size()) {
             Line2D* tail = noteTails[i];
             Sprite2D* cap = noteCaps[i];
-            
+
             bool shouldShow = (notes[i].type == NOTE_HOLD) && (!notes[i].isProcessed);
-            
+
             if (shouldShow) {
                 double tailStartTime = std::max(notes[i].time, audioTime);
                 double visibleEdge = audioTime + visibleWindow;
                 double tailEndTime = std::min(notes[i].endTime, visibleEdge);
-                
+
                 bool isTailClipped = (notes[i].endTime > visibleEdge);
 
                 if (isTailClipped || notes[i].endTime < audioTime) {
                     cap->set_visible(false);
-                } 
+                }
                 else {
                     cap->set_visible(true);
-                    
+
                     double endAngle = calculate_angle_at_time(notes[i].endTime);
-                    double visualLane = (double)notes[i].lane; 
+                    double visualLane = (double)notes[i].lane;
                     if (notes[i].type == NOTE_REVERSE || notes[i].type == NOTE_OVERCLOCK || notes[i].type == NOTE_OVERHEAT) visualLane = 0.5;
-                    
+
                     cap->set_position(get_position_on_circle(endAngle, visualLane));
                     cap->set_rotation(endAngle);
 
@@ -556,9 +556,9 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                     } else {
                         double endRatio = 1.0 - ((notes[i].endTime - audioTime) / visibleWindow);
                         endRatio = std::clamp(endRatio, 0.0, 1.0);
-                        capColor.a = 0.7 * endRatio; 
+                        capColor.a = 0.7 * endRatio;
                     }
-                    
+
                     cap->set_scale(Vector2(capScale * capBaseScale, capScale * capBaseScale));
                     cap->set_modulate(capColor);
                     cap->set_z_index(-2);
@@ -567,10 +567,10 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                 if (tailStartTime >= tailEndTime) {
                     tail->set_visible(false);
                 } else {
-                    
+
                     double rawStartAngle = calculate_angle_at_time(tailStartTime);
                     double rawEndAngle = calculate_angle_at_time(tailEndTime);
-                    
+
                     double currentLaneRadius = baseRadius - (notes[i].lane * laneGap);
                     if (notes[i].type == NOTE_REVERSE || notes[i].type == NOTE_OVERCLOCK || notes[i].type == NOTE_OVERHEAT) {
                         currentLaneRadius = baseRadius - (0.5 * laneGap);
@@ -580,7 +580,7 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                     if (i < noteSprites.size() && noteSprites[i]->get_texture().is_valid()) {
                          Sprite2D* s = noteSprites[i];
                          double rPx = (s->get_texture()->get_width() / 2.0) * s->get_scale().x;
-                         headOffsetAngle = (rPx * 0.8) / currentLaneRadius; 
+                         headOffsetAngle = (rPx * 0.8) / currentLaneRadius;
                     }
 
                     double capOffsetAngle = 0.0;
@@ -590,13 +590,13 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                     }
 
                     double angleDiff = rawEndAngle - rawStartAngle;
-                    
+
                     if (Math::abs(angleDiff) <= (headOffsetAngle + capOffsetAngle)) {
                         tail->set_visible(false);
-                    } 
+                    }
                     else {
                         tail->set_visible(true);
-                        tail->clear_points(); 
+                        tail->clear_points();
 
                         double adjustedStartAngle = rawStartAngle;
                         double adjustedEndAngle = rawEndAngle;
@@ -609,7 +609,7 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                             adjustedEndAngle += capOffsetAngle;
                         }
 
-                        int segments = 24; 
+                        int segments = 24;
                         double adjAngleDiff = adjustedEndAngle - adjustedStartAngle;
 
                         for (int j = 0; j <= segments; j++) {
@@ -618,17 +618,17 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                             Vector2 pointPos = get_position_on_circle(currentA, notes[i].lane);
                             tail->add_point(pointPos);
                         }
-                    
-                        Color baseColor = Color(1, 1, 1); 
+
+                        Color baseColor = Color(1, 1, 1);
                         double baseAlpha = 0.7;
-                        
-                        if (notes[i].isHolding) { 
-                            baseColor = Color(1, 1, 0); 
-                            baseAlpha = 0.9 + (0.1 * Math::sin(audioTime * 15.0)); 
+
+                        if (notes[i].isHolding) {
+                            baseColor = Color(1, 1, 0);
+                            baseAlpha = 0.9 + (0.1 * Math::sin(audioTime * 15.0));
                         } else {
-                            baseAlpha = 0.7 * ratio; 
+                            baseAlpha = 0.7 * ratio;
                         }
-                        baseColor.a = baseAlpha; 
+                        baseColor.a = baseAlpha;
 
                         Ref<Gradient> grad = tail->get_gradient();
                         if (grad.is_valid()) {
@@ -646,23 +646,23 @@ void RhythmCircle::update_state(double audioTime, double delta) {
             Sprite2D* s = noteSprites[i];
 
             double targetTime = notes[i].time;
-            
+
             if (notes[i].type == NOTE_HOLD && notes[i].isProcessed && notes[i].finalResult != RESULT_MISS) {
                 targetTime = notes[i].endTime;
             }
 
             double noteAngle = calculate_angle_at_time(targetTime);
-            
+
             double visualLane = (double)notes[i].lane;
             if (notes[i].type == NOTE_REVERSE || notes[i].type == NOTE_OVERCLOCK || notes[i].type == NOTE_OVERHEAT) {
-                visualLane = 0.5; 
+                visualLane = 0.5;
             }
             s->set_position(get_position_on_circle(noteAngle, visualLane));
             s->set_rotation(noteAngle);
-            
+
             if (notes[i].isHolding) {
                 s->set_visible(false);
-                
+
                 if (audioTime >= notes[i].endTime) {
                     notes[i].isHolding = false;
                     notes[i].isProcessed = true;
@@ -673,15 +673,15 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                         notes[i].activeHoldPlayer = nullptr;
                     }
 
-                    notes[i].finalResult = RESULT_PERFECT; 
-                    
+                    notes[i].finalResult = RESULT_PERFECT;
+
                     double endAngle = calculate_angle_at_time(notes[i].endTime);
-                    
+
                     s->set_position(get_position_on_circle(endAngle, visualLane));
                     s->set_rotation(endAngle);
-                    
-                    s->set_visible(true);          
-                    s->set_modulate(Color(1, 1, 1, 1)); 
+
+                    s->set_visible(true);
+                    s->set_modulate(Color(1, 1, 1, 1));
                     s->set_scale(Vector2(1, 1));
                     s->set_z_index(20);
 
@@ -698,29 +698,29 @@ void RhythmCircle::update_state(double audioTime, double delta) {
 
             double targetSize = 64.0;
 
-            if (notes[i].type == NOTE_REVERSE || 
-                notes[i].type == NOTE_OVERCLOCK || 
+            if (notes[i].type == NOTE_REVERSE ||
+                notes[i].type == NOTE_OVERCLOCK ||
                 notes[i].type == NOTE_OVERHEAT) {
                 targetSize = 31.0;
             }
 
-            double textureSize = 64.0; 
+            double textureSize = 64.0;
             if (s->get_texture().is_valid()) {
                 textureSize = s->get_texture()->get_width();
             }
-            
-            double baseScale = targetSize / textureSize; 
+
+            double baseScale = targetSize / textureSize;
 
             Color targetColor = Color(1, 1, 1, 1);
             Vector2 targetScale = Vector2(1, 1);
             double distScale = 0.6 + (0.4 * ratio);
 
-            
+
             if (notes[i].isHit) {
-                
+
                 if (notes[i].finalResult == RESULT_MISS) {
                     s->set_visible(true);
-                    s->set_z_index(5); 
+                    s->set_z_index(5);
 
                     double timeSinceMiss = audioTime - (notes[i].time + hitWindowMiss);
                     if (timeSinceMiss < 0) timeSinceMiss = 0;
@@ -732,9 +732,9 @@ void RhythmCircle::update_state(double audioTime, double delta) {
 
                     s->set_rotation(s->get_rotation() + (timeSinceMiss * 5.0));
 
-                    Color missColor = Color(0.6, 0.2, 0.2, 1.0); 
-                    
-                    double fadeSpeed = 2.0; 
+                    Color missColor = Color(0.6, 0.2, 0.2, 1.0);
+
+                    double fadeSpeed = 2.0;
                     double alpha = 1.0 - (timeSinceMiss * fadeSpeed);
                     missColor.a = std::clamp(alpha, 0.0, 1.0);
                     targetColor = missColor;
@@ -749,33 +749,33 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                     isAnyAnimationPlaying = true;
                     s->set_z_index(9);
 
-                    double fadeDuration = 0.25; 
+                    double fadeDuration = 0.25;
                     double currentAlpha = s->get_modulate().a - (delta / fadeDuration);
-                    
-                    if (currentAlpha > 0) s->set_visible(true); 
+
+                    if (currentAlpha > 0) s->set_visible(true);
                     else s->set_visible(false);
-                    
-                    targetColor = Color(1, 1, 1); 
+
+                    targetColor = Color(1, 1, 1);
                     if (notes[i].finalResult == RESULT_PERFECT) targetColor = Color(1, 0.9, 0.2);
                     else if (notes[i].finalResult == RESULT_GOOD) targetColor = Color(0.2, 0.8, 1.0);
-                    
+
                     targetColor.a = currentAlpha;
 
                     if (currentAlpha > 0.8) {
                         targetColor.r = 1.0; targetColor.g = 1.0; targetColor.b = 1.0;
                     }
 
-                    double progress = 1.0 - currentAlpha; 
-                    double expansionAmount = 0.5; 
+                    double progress = 1.0 - currentAlpha;
+                    double expansionAmount = 0.5;
                     double newScale = 1.0 + (progress * expansionAmount);
-                    
+
                     targetScale = Vector2(newScale * baseScale, newScale * baseScale);
 
-                    
+
                 }
                 s->set_modulate(targetColor);
                 s->set_scale(targetScale);
-            } 
+            }
             else {
                 if (notes[i].type == NOTE_REVERSE) targetColor = Color(1.0, 0.0, 1.0);
                 else if (notes[i].type == NOTE_OVERCLOCK) targetColor = Color(0, 1.0, 0);
@@ -784,8 +784,8 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                 else if (notes[i].type == NOTE_ANORMALY) targetColor = Color(1.0, 1.0, 0.0);
                 else targetColor = Color(1, 1, 1);
 
-                double alpha = ratio; 
-                targetColor.a = std::clamp(alpha, 0.0, 1.0); 
+                double alpha = ratio;
+                targetColor.a = std::clamp(alpha, 0.0, 1.0);
 
                 targetScale = Vector2(distScale * baseScale, distScale * baseScale);
 
@@ -793,12 +793,12 @@ void RhythmCircle::update_state(double audioTime, double delta) {
                     double pulse = 1.0 + (0.15 * Math::sin(audioTime * 12.0));
                     targetScale *= pulse;
                 }
-                
+
                 s->set_modulate(targetColor);
                 s->set_scale(targetScale);
-                
+
                 s->set_z_index(-10 + (int)(ratio * 9));
-                
+
                 if (!notes[i].isHit && targetColor.a <= 0.01) s->set_visible(false);
                 else if (!notes[i].isHit) s->set_visible(true);
             }
@@ -810,10 +810,10 @@ void RhythmCircle::update_state(double audioTime, double delta) {
 }
 
 void RhythmCircle::set_bpm(double bpm) {
-    startBPM = bpm; 
-    currentBPM = bpm; 
+    startBPM = bpm;
+    currentBPM = bpm;
     baseSpeed = bpm / 240.0;
-    
+
     UtilityFunctions::print("Set BPM: ", currentBPM, " -> Base Speed: ", baseSpeed, " RPS");
 }
 
@@ -822,9 +822,9 @@ void RhythmCircle::process_release(int laneIndex, double audioTime) {
         bool isCorrectLane = (laneIndex == -1) || (notes[i].lane == laneIndex);
         if (notes[i].isHolding && isCorrectLane) {
             double releaseThreshold = notes[i].endTime - hitWindowGood;
-            
+
             if (notes[i].endTime - notes[i].time < hitWindowGood) {
-                releaseThreshold = notes[i].time; 
+                releaseThreshold = notes[i].time;
             }
             notes[i].isHolding = false;
             if (audioTime < releaseThreshold) {
@@ -833,7 +833,7 @@ void RhythmCircle::process_release(int laneIndex, double audioTime) {
                 currentCombo = 0;
                 emit_signal("on_hit_judgement", "MISS", 0);
                 if (i < noteSprites.size()) {
-                     noteSprites[i]->set_visible(true); 
+                     noteSprites[i]->set_visible(true);
                      double currentAngle = calculate_angle_at_time(audioTime);
                      double visualLane = (double)notes[i].lane;
                      if (notes[i].type == NOTE_REVERSE || notes[i].type == NOTE_OVERCLOCK || notes[i].type == NOTE_OVERHEAT) visualLane = 0.5;
@@ -850,19 +850,19 @@ void RhythmCircle::process_release(int laneIndex, double audioTime) {
                 UtilityFunctions::print("HOLD FAILED!");
             }
             else {
-                notes[i].isProcessed = true; 
+                notes[i].isProcessed = true;
                 notes[i].finalResult = RESULT_PERFECT;
-                
+
                 currentCombo++;
                 emit_signal("on_hit_judgement", "PERFECT", currentCombo);
 
                 if (i < noteSprites.size()) {
                     Sprite2D* s = noteSprites[i];
-                    
+
                     double endAngle = calculate_angle_at_time(notes[i].endTime);
-                    double visualLane = (double)notes[i].lane; 
+                    double visualLane = (double)notes[i].lane;
                     if (notes[i].type == NOTE_REVERSE || notes[i].type == NOTE_OVERCLOCK || notes[i].type == NOTE_OVERHEAT) visualLane = 0.5;
-                    
+
                     Vector2 endPos = get_position_on_circle(endAngle, visualLane);
 
                     s->set_position(endPos);
@@ -875,15 +875,15 @@ void RhythmCircle::process_release(int laneIndex, double audioTime) {
 
                     notes[i].isHit = true;
                 }
-                
+
                 if (i < noteCaps.size()) noteCaps[i]->set_visible(false);
                 if (i < noteTails.size()) noteTails[i]->set_visible(false);
 
                 double endAngle = calculate_angle_at_time(notes[i].endTime);
-                double visualLane = (double)notes[i].lane; 
+                double visualLane = (double)notes[i].lane;
                 if (notes[i].type == NOTE_REVERSE || notes[i].type == NOTE_OVERCLOCK || notes[i].type == NOTE_OVERHEAT) visualLane = 0.5;
                 Vector2 hitPos = get_position_on_circle(endAngle, visualLane);
-                spawn_hit_effect(hitPos, Color(1, 0.9, 0.2)); 
+                spawn_hit_effect(hitPos, Color(1, 0.9, 0.2));
                 if (notes[i].activeHoldPlayer) {
                     AudioStreamPlayer* p = Object::cast_to<AudioStreamPlayer>(notes[i].activeHoldPlayer);
                     if (p) p->stop();

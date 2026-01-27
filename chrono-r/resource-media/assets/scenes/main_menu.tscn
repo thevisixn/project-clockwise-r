@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://0oya65g50vk1"]
+
+[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://resource-media/fonts/Quicksand.ttf" id="1_ps55b"]
+[ext_resource type="Texture2D" uid="uid://dhhwgvvlfc14k" path="res://icon.svg" id="1_xwibd"]
+[ext_resource type="Theme" uid="uid://ti3efckvmcab" path="res://resource-media/assets/scenes/nav_theme.tres" id="2_ypa31"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ypa31"]
+font = ExtResource("1_ps55b")
+font_size = 70
+outline_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnukk"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.3137255, 0.78039217, 0.5294118, 1)
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0qmxb"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.14509805, 0.4392157, 0.28235295, 1)
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3gok"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.56078434, 0.78039217, 0.6627451, 1)
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tq8fv"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.78039217, 0.78039217, 0.78039217, 1)
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ypa31"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.78, 0.31199998, 0.31199998, 1)
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fof40"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.4392157, 0.14509805, 0.14509805, 1)
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4gs2"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.78039217, 0.56078434, 0.56078434, 1)
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a75e8"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.78039217, 0.78039217, 0.78039217, 1)
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+corner_detail = 20
+
+[node name="MainMenu" type="Control" unique_id=2046648142]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMenuController" type="MainMenuController" parent="." unique_id=681373715 node_paths=PackedStringArray("ui_play_btn", "ui_shop_btn", "ui_settings_btn", "ui_credit_btn", "ui_exit_btn", "ui_game_icon")]
+ui_play_btn = NodePath("VBoxContainer/PlayB")
+ui_shop_btn = NodePath("VBoxContainer/ShopB")
+ui_settings_btn = NodePath("VBoxContainer/ConfigB")
+ui_credit_btn = NodePath("VBoxContainer/CredB")
+ui_exit_btn = NodePath("VBoxContainer/ExitB")
+ui_game_icon = NodePath("TextureRect")
+next_scene_path = "uid://dv38efv7jisa6"
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TitleL" type="Label" parent="MainMenuController" unique_id=1941057566]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 113.0
+offset_right = 700.0
+offset_bottom = 201.0
+text = "Project Clockwise"
+label_settings = SubResource("LabelSettings_ypa31")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuController" unique_id=1499979640]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 254.0
+offset_right = 601.0
+offset_bottom = 979.0
+theme = ExtResource("2_ypa31")
+theme_override_constants/separation = 17
+
+[node name="PlayB" type="Button" parent="MainMenuController/VBoxContainer" unique_id=759552788]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_jnukk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0qmxb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_o3gok")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tq8fv")
+action_mode = 0
+text = "Play"
+vertical_icon_alignment = 2
+
+[node name="ShopB" type="Button" parent="MainMenuController/VBoxContainer" unique_id=2099043290]
+layout_mode = 2
+size_flags_vertical = 3
+action_mode = 0
+text = "Shop"
+vertical_icon_alignment = 2
+
+[node name="ConfigB" type="Button" parent="MainMenuController/VBoxContainer" unique_id=1441663218]
+layout_mode = 2
+size_flags_vertical = 3
+action_mode = 0
+text = "Settings"
+vertical_icon_alignment = 2
+
+[node name="CredB" type="Button" parent="MainMenuController/VBoxContainer" unique_id=1809561775]
+layout_mode = 2
+size_flags_vertical = 3
+action_mode = 0
+text = "Credit"
+vertical_icon_alignment = 2
+
+[node name="ExitB" type="Button" parent="MainMenuController/VBoxContainer" unique_id=1111176442]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_ypa31")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fof40")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p4gs2")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_a75e8")
+action_mode = 0
+text = "Exit"
+vertical_icon_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="MainMenuController" unique_id=1433992817]
+layout_mode = 0
+offset_left = 1068.0
+offset_top = 275.0
+offset_right = 1590.0
+offset_bottom = 797.0
+texture = ExtResource("1_xwibd")

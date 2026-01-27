@@ -24,7 +24,7 @@ struct MapMetadata {
   String audioPath;
   String csvPath;
 
-  // 🔥 [เพิ่ม] ข้อมูลคะแนนและเกรด (ค่าเริ่มต้น)
+
   int bestScore = 0;
   String grade = "-";
 };
