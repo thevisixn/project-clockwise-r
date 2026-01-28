@@ -10,7 +10,22 @@ enum NoteType {
   NOTE_REVERSE,
   NOTE_OVERCLOCK,
   NOTE_OVERHEAT,
-  NOTE_ANORMALY
+  NOTE_ANORMALY,
+  NOTE_CMD_SHOW,
+  NOTE_CMD_HIDE
+};
+
+enum EventType {
+  EVENT_CIRCLE_SHOW,
+  EVENT_CIRCLE_HIDE
+};
+
+
+struct CircleEvent {
+  double time;
+  int circleId;
+  NoteType type;
+  bool isProcessed = false;
 };
 
 enum HitResult { RESULT_NONE, RESULT_MISS, RESULT_GOOD, RESULT_PERFECT };
@@ -23,7 +38,6 @@ struct MapMetadata {
   String coverPath;
   String audioPath;
   String csvPath;
-
 
   int bestScore = 0;
   String grade = "-";

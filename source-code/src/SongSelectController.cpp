@@ -123,264 +123,277 @@ void SongSelectController::_bind_methods() {
                "set_info_bg_rect", "get_info_bg_rect");
 }
 
-  void SongSelectController::_ready() {
-    scan_maps_recursive("res://resource-media/map/");
-    populate_grid();
+void SongSelectController::_ready() {
+  scan_maps_recursive("res://resource-media/map/");
+  populate_grid();
 
-    if (!mapList.empty()) {
-      _on_item_clicked(0);
-    }
+  if (!mapList.empty()) {
+    _on_item_clicked(0);
   }
+}
 
-  void SongSelectController::scan_maps_in_folder(String folderPath) {
-    Ref<DirAccess> dir = DirAccess::open(folderPath);
-    if (dir.is_valid()) {
-      dir->list_dir_begin();
-      String fileName = dir->get_next();
+void SongSelectController::scan_maps_in_folder(String folderPath) {
+  Ref<DirAccess> dir = DirAccess::open(folderPath);
+  if (dir.is_valid()) {
+    dir->list_dir_begin();
+    String fileName = dir->get_next();
 
-      while (fileName != "") {
-        if (!dir->current_is_dir() && fileName.ends_with(".csv")) {
-          String fullPath = folderPath + "/" + fileName;
+    while (fileName != "") {
+      if (!dir->current_is_dir() && fileName.ends_with(".csv")) {
+        String fullPath = folderPath + "/" + fileName;
 
-          Ref<FileAccess> file = FileAccess::open(fullPath, FileAccess::READ);
-          if (file.is_valid()) {
-            MapMetadata meta;
-            meta.csvPath = fullPath;
-            meta.title = "Unknown";
-            meta.artist = "Unknown";
+        Ref<FileAccess> file = FileAccess::open(fullPath, FileAccess::READ);
+        if (file.is_valid()) {
+          MapMetadata meta;
+          meta.csvPath = fullPath;
+          meta.title = "Unknown";
+          meta.artist = "Unknown";
 
-            while (!file->eof_reached()) {
-              PackedStringArray row = file->get_csv_line();
-              if (row.size() < 2)
-                continue;
-              if (row[0] == "Note Data")
-                break;
+          while (!file->eof_reached()) {
+            PackedStringArray row = file->get_csv_line();
+            if (row.size() < 2)
+              continue;
+            if (row[0] == "Note Data")
+              break;
 
-              if (row[0] == "Title")
-                meta.title = row[1];
-              else if (row[0] == "Artist")
-                meta.artist = row[1];
-              else if (row[0] == "Difficulty")
-                meta.difficulty = row[1];
-              else if (row[0] == "Level")
-                meta.level = row[1];
-            }
-            mapList.push_back(meta);
+            if (row[0] == "Title")
+              meta.title = row[1];
+            else if (row[0] == "Artist")
+              meta.artist = row[1];
+            else if (row[0] == "Difficulty")
+              meta.difficulty = row[1];
+            else if (row[0] == "Level")
+              meta.level = row[1];
           }
+          mapList.push_back(meta);
         }
-        fileName = dir->get_next();
       }
+      fileName = dir->get_next();
     }
   }
+}
 
-  void SongSelectController::populate_grid() {
-    if (!gridContainer || !beatmapItemScene.is_valid()) {
-      UtilityFunctions::print("Error: Grid or Scene not set!");
-      return;
-    }
-
-    gridContainer->add_theme_constant_override("h_separation", gridHSeparation);
-    gridContainer->add_theme_constant_override("v_separation", gridVSeparation);
-
-    TypedArray<Node> children = gridContainer->get_children();
-    for (int i = 0; i < children.size(); i++) {
-      Node *n = Object::cast_to<Node>(children[i]);
-      if (n)
-        n->queue_free();
-    }
-
-    for (int i = 0; i < mapList.size(); i++) {
-      Node *node = beatmapItemScene->instantiate();
-      BeatmapItem *item = Object::cast_to<BeatmapItem>(node);
-
-      if (item) {
-        item->set_custom_minimum_size(itemSize);
-        gridContainer->add_child(item);
-
-        Ref<Texture2D> coverTex;
-        if (mapList[i].coverPath != "") {
-          coverTex =
-              ResourceLoader::get_singleton()->load(mapList[i].coverPath);
-        }
-
-        String diffText = mapList[i].difficulty + " " + mapList[i].level;
-        item->setup_data(i, mapList[i].title, mapList[i].artist, diffText,
-                         coverTex);
-
-        item->connect("item_clicked", Callable(this, "_on_item_clicked"));
-      }
-    }
+void SongSelectController::populate_grid() {
+  if (!gridContainer || !beatmapItemScene.is_valid()) {
+    UtilityFunctions::print("Error: Grid or Scene not set!");
+    return;
   }
 
-  void SongSelectController::_on_item_clicked(int index) {
-    if (index < 0 || index >= mapList.size())
-      return;
+  gridContainer->add_theme_constant_override("h_separation", gridHSeparation);
+  gridContainer->add_theme_constant_override("v_separation", gridVSeparation);
 
-    if (currentSelectionIndex == index) {
-      return;
+  TypedArray<Node> children = gridContainer->get_children();
+  for (int i = 0; i < children.size(); i++) {
+    Node *n = Object::cast_to<Node>(children[i]);
+    if (n)
+      n->queue_free();
+  }
+
+  for (int i = 0; i < mapList.size(); i++) {
+    Node *node = beatmapItemScene->instantiate();
+    BeatmapItem *item = Object::cast_to<BeatmapItem>(node);
+
+    if (item) {
+      item->set_custom_minimum_size(itemSize);
+      gridContainer->add_child(item);
+
+      Ref<Texture2D> coverTex;
+      if (mapList[i].coverPath != "") {
+        coverTex = ResourceLoader::get_singleton()->load(mapList[i].coverPath);
+      }
+
+      String diffText = mapList[i].difficulty + " " + mapList[i].level;
+      item->setup_data(i, mapList[i].title, mapList[i].artist, diffText,
+                       coverTex);
+
+      item->connect("item_clicked", Callable(this, "_on_item_clicked"));
     }
+  }
+}
 
-    currentSelectionIndex = index;
-    update_info_panel();
+void SongSelectController::_on_item_clicked(int index) {
+  if (index < 0 || index >= mapList.size())
+    return;
+
+  if (currentSelectionIndex == index) {
+    UtilityFunctions::print("▶ Starting Game (Double Click): ",
+                            mapList[index].title);
 
     GameGlobal::selectedMapPath = mapList[index].csvPath.utf8().get_data();
     GameGlobal::selectedAudioPath = mapList[index].audioPath.utf8().get_data();
 
-    TypedArray<Node> children = gridContainer->get_children();
-    for (int i = 0; i < children.size(); i++) {
-      BeatmapItem *item = Object::cast_to<BeatmapItem>(children[i]);
-      if (item) {
-        item->set_selected(i == currentSelectionIndex);
-      }
-    }
-  }
 
-  void SongSelectController::update_info_panel() {
-    if (currentSelectionIndex < 0)
-      return;
-    MapMetadata &meta = mapList[currentSelectionIndex];
-
-    if (titleLabel)
-      titleLabel->set_text(meta.title);
-    if (artistLabel)
-      artistLabel->set_text(meta.artist);
-
-    if (difficultyLabel) {
-      String combinedText = meta.difficulty + " " + meta.level;
-      difficultyLabel->set_text(combinedText);
-    }
-    if (levelLabel)
-      levelLabel->set_text(meta.level);
-
-    if (scoreLabel) {
-
-      scoreLabel->set_text(String::num_int64(meta.bestScore).pad_zeros(7));
-    }
-
-    if (gradeLabel) {
-      gradeLabel->set_text(meta.grade);
-    }
-
-    if (infoBackgroundRect) {
-      if (!meta.coverPath.is_empty()) {
-        Ref<Texture2D> tex =
-            ResourceLoader::get_singleton()->load(meta.coverPath);
-        infoBackgroundRect->set_texture(tex);
-      } else {
-
-        infoBackgroundRect->set_texture(Ref<Texture2D>());
-      }
-    }
-  }
-
-  void SongSelectController::scan_maps_recursive(String p_path) {
-    UtilityFunctions::print("🚀 START SCANNING AT: ", p_path);
-
-    Ref<DirAccess> dir = DirAccess::open(p_path);
-    if (dir.is_null()) {
-
-      UtilityFunctions::print("❌ Error opening directory: ", p_path);
+    if (gameScenePath.is_empty()) {
+      UtilityFunctions::print("❌ Error: Game Scene Path is empty!");
       return;
     }
 
-    dir->list_dir_begin();
-    String file_name = dir->get_next();
 
-    while (file_name != "") {
-      if (dir->current_is_dir()) {
-        if (file_name != "." && file_name != "..") {
-          scan_maps_recursive(p_path + "/" + file_name);
-        }
-      } else {
-        if (file_name.ends_with(".csv")) {
-          process_map_file(p_path + "/" + file_name);
-        }
-      }
-      file_name = dir->get_next();
-    }
+    get_tree()->change_scene_to_file(gameScenePath);
+    return;
   }
 
-  void SongSelectController::process_map_file(String fullPath) {
-    Ref<FileAccess> file = FileAccess::open(fullPath, FileAccess::READ);
-    if (file.is_valid()) {
-      MapMetadata meta;
-      meta.csvPath = fullPath;
-      meta.title = "Unknown";
-      meta.artist = "Unknown";
+  currentSelectionIndex = index;
+  update_info_panel();
 
-      meta.bestScore = 0;
-      meta.grade = "-";
-      String folderPath = fullPath.get_base_dir();
+  GameGlobal::selectedMapPath = mapList[index].csvPath.utf8().get_data();
+  GameGlobal::selectedAudioPath = mapList[index].audioPath.utf8().get_data();
 
-      while (!file->eof_reached()) {
-        PackedStringArray row = file->get_csv_line();
-        if (row.size() < 2)
-          continue;
-        if (row[0] == "Note Data")
-          break;
+  TypedArray<Node> children = gridContainer->get_children();
+  for (int i = 0; i < children.size(); i++) {
+    BeatmapItem *item = Object::cast_to<BeatmapItem>(children[i]);
+    if (item) {
+      item->set_selected(i == currentSelectionIndex);
+    }
+  }
+}
 
-        if (row[0] == "Title")
-          meta.title = row[1];
-        else if (row[0] == "Artist")
-          meta.artist = row[1];
-        else if (row[0] == "Difficulty")
-          meta.difficulty = row[1];
-        else if (row[0] == "Level")
-          meta.level = row[1];
+void SongSelectController::update_info_panel() {
+  if (currentSelectionIndex < 0)
+    return;
+  MapMetadata &meta = mapList[currentSelectionIndex];
+
+  if (titleLabel)
+    titleLabel->set_text(meta.title);
+  if (artistLabel)
+    artistLabel->set_text(meta.artist);
+
+  if (difficultyLabel) {
+    String combinedText = meta.difficulty + " " + meta.level;
+    difficultyLabel->set_text(combinedText);
+  }
+  if (levelLabel)
+    levelLabel->set_text(meta.level);
+
+  if (scoreLabel) {
+
+    scoreLabel->set_text(String::num_int64(meta.bestScore).pad_zeros(7));
+  }
+
+  if (gradeLabel) {
+    gradeLabel->set_text(meta.grade);
+  }
+
+  if (infoBackgroundRect) {
+    if (!meta.coverPath.is_empty()) {
+      Ref<Texture2D> tex =
+          ResourceLoader::get_singleton()->load(meta.coverPath);
+      infoBackgroundRect->set_texture(tex);
+    } else {
+
+      infoBackgroundRect->set_texture(Ref<Texture2D>());
+    }
+  }
+}
+
+void SongSelectController::scan_maps_recursive(String p_path) {
+  UtilityFunctions::print("🚀 START SCANNING AT: ", p_path);
+
+  Ref<DirAccess> dir = DirAccess::open(p_path);
+  if (dir.is_null()) {
+
+    UtilityFunctions::print("❌ Error opening directory: ", p_path);
+    return;
+  }
+
+  dir->list_dir_begin();
+  String file_name = dir->get_next();
+
+  while (file_name != "") {
+    if (dir->current_is_dir()) {
+      if (file_name != "." && file_name != "..") {
+        scan_maps_recursive(p_path + "/" + file_name);
       }
-      if (meta.coverPath.is_empty() || meta.audioPath.is_empty()) {
-        Ref<DirAccess> dir = DirAccess::open(folderPath);
-        if (dir.is_valid()) {
-          dir->list_dir_begin();
-          String fileName = dir->get_next();
-          while (fileName != "") {
-            if (!dir->current_is_dir()) {
-              String ext = fileName.get_extension().to_lower();
-              if (meta.coverPath.is_empty() &&
-                  (ext == "png" || ext == "jpg" || ext == "jpeg")) {
-                meta.coverPath = folderPath + "/" + fileName;
-              }
-              if (meta.audioPath.is_empty() &&
-                  (ext == "mp3" || ext == "ogg" || ext == "wav")) {
-                meta.audioPath = folderPath + "/" + fileName;
-              }
+    } else {
+      if (file_name.ends_with(".csv")) {
+        process_map_file(p_path + "/" + file_name);
+      }
+    }
+    file_name = dir->get_next();
+  }
+}
+
+void SongSelectController::process_map_file(String fullPath) {
+  Ref<FileAccess> file = FileAccess::open(fullPath, FileAccess::READ);
+  if (file.is_valid()) {
+    MapMetadata meta;
+    meta.csvPath = fullPath;
+    meta.title = "Unknown";
+    meta.artist = "Unknown";
+
+    meta.bestScore = 0;
+    meta.grade = "-";
+    String folderPath = fullPath.get_base_dir();
+
+    while (!file->eof_reached()) {
+      PackedStringArray row = file->get_csv_line();
+      if (row.size() < 2)
+        continue;
+      if (row[0] == "Note Data")
+        break;
+
+      if (row[0] == "Title")
+        meta.title = row[1];
+      else if (row[0] == "Artist")
+        meta.artist = row[1];
+      else if (row[0] == "Difficulty")
+        meta.difficulty = row[1];
+      else if (row[0] == "Level")
+        meta.level = row[1];
+    }
+    if (meta.coverPath.is_empty() || meta.audioPath.is_empty()) {
+      Ref<DirAccess> dir = DirAccess::open(folderPath);
+      if (dir.is_valid()) {
+        dir->list_dir_begin();
+        String fileName = dir->get_next();
+        while (fileName != "") {
+          if (!dir->current_is_dir()) {
+            String ext = fileName.get_extension().to_lower();
+            if (meta.coverPath.is_empty() &&
+                (ext == "png" || ext == "jpg" || ext == "jpeg")) {
+              meta.coverPath = folderPath + "/" + fileName;
             }
-            fileName = dir->get_next();
+            if (meta.audioPath.is_empty() &&
+                (ext == "mp3" || ext == "ogg" || ext == "wav")) {
+              meta.audioPath = folderPath + "/" + fileName;
+            }
           }
+          fileName = dir->get_next();
         }
       }
+    }
 
-      if (meta.coverPath != "") {
-        UtilityFunctions::print("✅ Found Map: ", meta.title,
-                                " | Cover: ", meta.coverPath);
-      } else {
-        UtilityFunctions::print("⚠️ Found Map: ", meta.title,
-                                " | No Cover Found!");
-      }
+    if (meta.coverPath != "") {
+      UtilityFunctions::print("✅ Found Map: ", meta.title,
+                              " | Cover: ", meta.coverPath);
+    } else {
+      UtilityFunctions::print("⚠️ Found Map: ", meta.title,
+                              " | No Cover Found!");
+    }
 
-      if (meta.audioPath != "") {
-        UtilityFunctions::print("   🎵 Audio Found: ", meta.audioPath);
-      } else {
-        UtilityFunctions::print("   ❌ No Audio Found for: ", meta.title);
-      }
+    if (meta.audioPath != "") {
+      UtilityFunctions::print("   🎵 Audio Found: ", meta.audioPath);
+    } else {
+      UtilityFunctions::print("   ❌ No Audio Found for: ", meta.title);
+    }
 
-      mapList.push_back(meta);
+    mapList.push_back(meta);
 
-      if (meta.coverPath != "") {
-        UtilityFunctions::print("✅ Found Map: ", meta.title,
-                                " | Cover: ", meta.coverPath);
-      } else {
-        UtilityFunctions::print("⚠️ Found Map: ", meta.title,
-                                " | No Cover Found!");
-      }
+    if (meta.coverPath != "") {
+      UtilityFunctions::print("✅ Found Map: ", meta.title,
+                              " | Cover: ", meta.coverPath);
+    } else {
+      UtilityFunctions::print("⚠️ Found Map: ", meta.title,
+                              " | No Cover Found!");
     }
   }
+}
 
-  void SongSelectController::_on_back_button_pressed() {
+void SongSelectController::_on_back_button_pressed() {
 
-    if (mainMenuScenePath.is_empty()) {
-      UtilityFunctions::print("❌ Error: Main Menu Path is empty!");
-      return;
-    }
-    get_tree()->change_scene_to_file(mainMenuScenePath);
+  if (mainMenuScenePath.is_empty()) {
+    UtilityFunctions::print("❌ Error: Main Menu Path is empty!");
+    return;
   }
+  get_tree()->change_scene_to_file(mainMenuScenePath);
+}

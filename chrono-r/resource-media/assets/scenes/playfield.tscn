@@ -1,14 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://db5wiuv5ue7ce"]
+[gd_scene format=3 uid="uid://db5wiuv5ue7ce"]
 
 [ext_resource type="Texture2D" uid="uid://x3pliwmrk6ja" path="res://resource-media/assets/gameplay/jmline.png" id="1_0cyf1"]
 [ext_resource type="Texture2D" uid="uid://ufa6iv1exdwf" path="res://resource-media/assets/gameplay/onelanenote.svg" id="1_dc4le"]
 [ext_resource type="Texture2D" uid="uid://cndi27i487qq" path="res://resource-media/assets/gameplay/alllanenote.svg" id="2_mge1i"]
+[ext_resource type="Texture2D" uid="uid://ckehpwod3ahbl" path="res://resource-media/assets/gameplay/dot.svg" id="4_rpov8"]
 [ext_resource type="AudioStream" uid="uid://d1pngju2gnnig" path="res://resource-media/sound/sfx/gameplay/hitsound/singlesfx.wav" id="5_7ljjp"]
 [ext_resource type="AudioStream" uid="uid://2uqq10girvuy" path="res://resource-media/sound/sfx/gameplay/hitsound/holdsfx.mp3" id="6_3s18r"]
 [ext_resource type="AudioStream" uid="uid://pxtq3mgeiju1" path="res://resource-media/sound/sfx/gameplay/hitsound/reversesfx.wav" id="6_m6oq0"]
 [ext_resource type="PackedScene" uid="uid://bw6noq4kiklq" path="res://resource-media/assets/scenes/HitEffect.tscn" id="7_xssgh"]
 [ext_resource type="AudioStream" uid="uid://wya5n12wofaj" path="res://resource-media/sound/sfx/gameplay/hitsound/overclock-heatsfx.wav" id="8_l8man"]
-[ext_resource type="Texture2D" uid="uid://ckehpwod3ahbl" path="res://resource-media/assets/gameplay/dot.svg" id="10_3s18r"]
 [ext_resource type="Texture2D" uid="uid://cq5fuef2vb688" path="res://resource-media/assets/bg_assets/background.jpg" id="10_7ljjp"]
 [ext_resource type="AudioStream" uid="uid://b2lpp6y6mswho" path="res://resource-media/sound/sfx/gameplay/result/atd-sfx.wav" id="10_pu6bo"]
 [ext_resource type="AudioStream" uid="uid://dl5est3vs3ysu" path="res://resource-media/sound/sfx/gameplay/result/aad-sfx.wav" id="11_5kvcy"]
@@ -30,10 +30,10 @@ font = ExtResource("15_5kvcy")
 font_size = 50
 outline_size = 3
 
-[node name="Playfield" type="Node2D"]
+[node name="Playfield" type="Node2D" unique_id=1422169347]
 scale = Vector2(0.3, 0.3)
 
-[node name="RhythmCircle" type="RhythmCircle" parent="."]
+[node name="RhythmCircle" type="RhythmCircle" parent="." unique_id=426401675]
 tex_single = ExtResource("1_dc4le")
 tex_reverse = ExtResource("2_mge1i")
 tex_overclock = ExtResource("2_mge1i")
@@ -44,8 +44,10 @@ lane_gap = 0.0
 visible_window = 1.0
 tex_hold_cap = ExtResource("1_dc4le")
 hit_effect_scene = ExtResource("7_xssgh")
+tex_center_cap = ExtResource("4_rpov8")
+visible = false
 
-[node name="RhythmGameController" type="RhythmGameController" parent="." node_paths=PackedStringArray("accuracy_label", "title_label", "difficulty_label", "score_label")]
+[node name="RhythmGameController" type="RhythmGameController" parent="." unique_id=1770906535 node_paths=PackedStringArray("accuracy_label", "title_label", "difficulty_label", "score_label")]
 accuracy_label = NodePath("../CanvasLayer/AccuracyLabel")
 title_label = NodePath("../CanvasLayer/TitleLabel")
 difficulty_label = NodePath("../CanvasLayer/DiffLabel")
@@ -60,6 +62,7 @@ tex_overclock = ExtResource("2_mge1i")
 tex_overheat = ExtResource("2_mge1i")
 tex_line = ExtResource("1_0cyf1")
 tex_anomaly = ExtResource("1_dc4le")
+tex_center_cap = ExtResource("4_rpov8")
 user_audio_offset = 0.042
 sfx_single = ExtResource("5_7ljjp")
 sfx_hold = ExtResource("6_3s18r")
@@ -78,20 +81,11 @@ tex_background = ExtResource("10_7ljjp")
 sfx_all_tuned = ExtResource("10_pu6bo")
 sfx_full_adjusted = ExtResource("11_5kvcy")
 sfx_tuning_finish = ExtResource("12_khvcg")
+circle_lookahead_beats = 12.0
 
-[node name="dot2" type="Sprite2D" parent="."]
-z_index = 25
-position = Vector2(693, 0)
-texture = ExtResource("10_3s18r")
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=275711810]
 
-[node name="dot" type="Sprite2D" parent="."]
-z_index = 25
-position = Vector2(-693, 0)
-texture = ExtResource("10_3s18r")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+[node name="ScoreLabel" type="Label" parent="CanvasLayer" unique_id=1097435522]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -104,7 +98,7 @@ text = "0000000"
 label_settings = SubResource("LabelSettings_khvcg")
 horizontal_alignment = 2
 
-[node name="TitleLabel" type="Label" parent="CanvasLayer"]
+[node name="TitleLabel" type="Label" parent="CanvasLayer" unique_id=765793917]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -113,11 +107,11 @@ offset_top = -80.0
 offset_right = 911.0
 offset_bottom = -28.0
 grow_vertical = 0
-text = "悔_"
+text = "Bitter Times"
 label_settings = SubResource("LabelSettings_8ok3a")
 vertical_alignment = 2
 
-[node name="DiffLabel" type="Label" parent="CanvasLayer"]
+[node name="DiffLabel" type="Label" parent="CanvasLayer" unique_id=77985280]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -134,7 +128,7 @@ label_settings = SubResource("LabelSettings_8ok3a")
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="AccuracyLabel" type="Label" parent="CanvasLayer"]
+[node name="AccuracyLabel" type="Label" parent="CanvasLayer" unique_id=807018222]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
