@@ -1,6 +1,6 @@
 #include "MainMenuController.h"
 #include <godot_cpp/variant/utility_functions.hpp>
-
+#include <godot_cpp/classes/engine.hpp>
 using namespace godot;
 
 MainMenuController::MainMenuController() {}
@@ -51,6 +51,9 @@ void MainMenuController::_bind_methods() {
 }
 
 void MainMenuController::_ready() {
+    if (Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
 
     if (playButton) playButton->connect("pressed", Callable(this, "_on_play_pressed"));
     if (shopButton) shopButton->connect("pressed", Callable(this, "_on_shop_pressed"));

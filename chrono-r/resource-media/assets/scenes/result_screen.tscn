@@ -1,0 +1,208 @@
+[gd_scene format=3 uid="uid://bt7n7dvva2wjp"]
+
+[ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://resource-media/fonts/Quicksand.ttf" id="1_74w30"]
+[ext_resource type="Texture2D" uid="uid://bdopbov0jn887" path="res://resource-media/assets/interface/icon/backUI-Btn.svg" id="2_kibk0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8t7u"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.7, 0.31266668, 0.11900001, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gv8ts"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.44, 0.19653335, 0.07480001, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_naoi7"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.71, 0.50173336, 0.3976, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opk60"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.78039217, 0.78039217, 0.78039217, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Result Screen" type="Control" unique_id=25366854]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResultController" type="ResultController" parent="." unique_id=1562140582]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="ResultController" unique_id=1700767945]
+layout_mode = 0
+offset_left = 484.0
+offset_top = 93.0
+offset_right = 1108.0
+offset_bottom = 173.0
+theme_override_font_sizes/font_size = 59
+text = "Title"
+
+[node name="Artist" type="Label" parent="ResultController" unique_id=1888448159]
+layout_mode = 0
+offset_left = 490.0
+offset_top = 180.0
+offset_right = 541.0
+offset_bottom = 207.0
+theme_override_font_sizes/font_size = 30
+text = "Artist"
+
+[node name="Difficulty" type="Label" parent="ResultController" unique_id=391738590]
+layout_mode = 0
+offset_left = 487.0
+offset_top = 58.0
+offset_right = 557.0
+offset_bottom = 81.0
+theme_override_font_sizes/font_size = 24
+text = "Difficulty"
+
+[node name="ScoreValue" type="Label" parent="ResultController" unique_id=124195312]
+layout_mode = 0
+offset_left = 608.0
+offset_top = 362.0
+offset_right = 795.0
+offset_bottom = 458.0
+theme_override_font_sizes/font_size = 70
+text = "Score"
+
+[node name="PerfectCount" type="Label" parent="ResultController" unique_id=1476881353]
+layout_mode = 0
+offset_left = 892.0
+offset_top = 496.0
+offset_right = 1029.0
+offset_bottom = 545.0
+theme_override_font_sizes/font_size = 35
+text = "PFcount"
+
+[node name="PerfectLabel" type="Label" parent="ResultController" unique_id=2145038079]
+layout_mode = 0
+offset_left = 647.0
+offset_top = 496.0
+offset_right = 784.0
+offset_bottom = 545.0
+theme_override_font_sizes/font_size = 35
+text = "Tuned"
+
+[node name="GoodCount" type="Label" parent="ResultController" unique_id=71077876]
+layout_mode = 0
+offset_left = 892.0
+offset_top = 571.0
+offset_right = 1079.0
+offset_bottom = 620.0
+theme_override_font_sizes/font_size = 35
+text = "Goodcount"
+
+[node name="GoodCount2" type="Label" parent="ResultController" unique_id=1875584214]
+layout_mode = 0
+offset_left = 647.0
+offset_top = 571.0
+offset_right = 834.0
+offset_bottom = 620.0
+theme_override_font_sizes/font_size = 35
+text = "Adjudted"
+
+[node name="GoodCount3" type="Label" parent="ResultController" unique_id=1497358891]
+layout_mode = 0
+offset_left = 647.0
+offset_top = 647.0
+offset_right = 834.0
+offset_bottom = 696.0
+theme_override_font_sizes/font_size = 35
+text = "Fail"
+
+[node name="MissCount" type="Label" parent="ResultController" unique_id=1289088435]
+layout_mode = 0
+offset_left = 892.0
+offset_top = 648.0
+offset_right = 1065.0
+offset_bottom = 697.0
+theme_override_font_sizes/font_size = 35
+text = "Misscount"
+
+[node name="GradeLarge" type="Label" parent="ResultController" unique_id=1261178537]
+layout_mode = 0
+offset_left = 95.0
+offset_top = 289.0
+offset_right = 363.0
+offset_bottom = 500.0
+theme_override_font_sizes/font_size = 154
+text = "SSR"
+horizontal_alignment = 1
+
+[node name="TuningStatus" type="Label" parent="ResultController" unique_id=793256822]
+layout_mode = 0
+offset_left = 111.0
+offset_top = 661.0
+offset_right = 324.0
+offset_bottom = 735.0
+theme_override_font_sizes/font_size = 54
+text = "Tunning"
+horizontal_alignment = 1
+
+[node name="BackB" type="Button" parent="ResultController" unique_id=1314674869]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 955.0
+offset_right = 289.0
+offset_bottom = 1080.0
+theme_override_colors/font_outline_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_74w30")
+theme_override_font_sizes/font_size = 37
+theme_override_styles/normal = SubResource("StyleBoxFlat_i8t7u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gv8ts")
+theme_override_styles/hover = SubResource("StyleBoxFlat_naoi7")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_opk60")
+text = "Back"
+icon = ExtResource("2_kibk0")
+
+[node name="RetryB" type="Button" parent="ResultController" unique_id=282131030]
+layout_mode = 0
+offset_left = 1619.0
+offset_top = 955.0
+offset_right = 1869.0
+offset_bottom = 1080.0
+theme_override_colors/font_outline_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_74w30")
+theme_override_font_sizes/font_size = 37
+theme_override_styles/normal = SubResource("StyleBoxFlat_i8t7u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gv8ts")
+theme_override_styles/hover = SubResource("StyleBoxFlat_naoi7")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_opk60")
+text = "Retry"

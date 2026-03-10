@@ -6,12 +6,14 @@
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/property_tweener.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
+#include <godot_cpp/classes/scene_tree_timer.hpp>
 #include <godot_cpp/classes/tween.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-
+#include <godot_cpp/classes/engine.hpp>
 using namespace godot;
 
-void RhythmGameController::_bind_methods() {
+void RhythmGameController::_bind_methods()
+{
 
   ClassDB::bind_method(D_METHOD("_on_hit_judgement", "result", "combo"),
                        &RhythmGameController::_on_hit_judgement);
@@ -308,15 +310,26 @@ void RhythmGameController::_bind_methods() {
   ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "circle_fade_speed",
                             PROPERTY_HINT_RANGE, "0.1, 10.0, 0.1"),
                "set_circle_fade_speed", "get_circle_fade_speed");
+  ClassDB::bind_method(D_METHOD("set_tuning_gauge_bar", "bar"),
+                       &RhythmGameController::set_tuning_gauge_bar);
+  ClassDB::bind_method(D_METHOD("get_tuning_gauge_bar"),
+                       &RhythmGameController::get_tuning_gauge_bar);
+  ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ui_tuning_gauge",
+                            PROPERTY_HINT_NODE_TYPE, "ProgressBar"),
+               "set_tuning_gauge_bar", "get_tuning_gauge_bar");
+  ClassDB::bind_method(D_METHOD("finalize_results"),
+                       &RhythmGameController::finalize_results);
 }
 
 RhythmGameController::RhythmGameController() {}
 
 RhythmGameController::~RhythmGameController() {}
 
-void RhythmGameController::set_circle_fade_speed(double val) {
+void RhythmGameController::set_circle_fade_speed(double val)
+{
   circleFadeSpeed = val;
-  for (auto *c : circles) {
+  for (auto *c : circles)
+  {
     if (c)
       c->set_fade_speed(val);
   }
@@ -324,34 +337,45 @@ void RhythmGameController::set_circle_fade_speed(double val) {
 
 void RhythmGameController::set_vol_music(double val) { volMusic = val; }
 
-void RhythmGameController::set_vol_single(double val) {
+void RhythmGameController::set_vol_single(double val)
+{
   volSingle = val;
   for (auto *c : circles)
     c->set_vol_single(val);
 }
-void RhythmGameController::set_vol_hold(double val) {
+void RhythmGameController::set_vol_hold(double val)
+{
   volHold = val;
   for (auto *c : circles)
     c->set_vol_hold(val);
 }
-void RhythmGameController::set_vol_reverse(double val) {
+void RhythmGameController::set_vol_reverse(double val)
+{
   volReverse = val;
   for (auto *c : circles)
     c->set_vol_reverse(val);
 }
-void RhythmGameController::set_vol_overclock(double val) {
+void RhythmGameController::set_vol_overclock(double val)
+{
   volOverclock = val;
   for (auto *c : circles)
     c->set_vol_overclock(val);
 }
-void RhythmGameController::set_vol_overheat(double val) {
+void RhythmGameController::set_vol_overheat(double val)
+{
   volOverheat = val;
   for (auto *c : circles)
     c->set_vol_overheat(val);
 }
 
-void RhythmGameController::_ready() {
-  if (texBackground.is_valid()) {
+void RhythmGameController::_ready()
+{
+  if (Engine::get_singleton()->is_editor_hint())
+  {
+    return;
+  }
+  if (texBackground.is_valid())
+  {
     CanvasLayer *bgLayer = memnew(CanvasLayer);
     bgLayer->set_layer(-100);
     add_child(bgLayer);
@@ -418,13 +442,15 @@ void RhythmGameController::_ready() {
   comboLabel->add_theme_color_override("font_outline_color", Color(0, 0, 0, 0));
   comboLabel->add_theme_constant_override("outline_size", 0);
 
-  if (comboFont.is_valid()) {
+  if (comboFont.is_valid())
+  {
     Ref<FontVariation> adjustedFont = memnew(FontVariation);
     adjustedFont->set_base_font(comboFont);
 
     adjustedFont->set_variation_embolden(0.8);
 
-    if (comboLabel) {
+    if (comboLabel)
+    {
       comboLabel->add_theme_font_override("font", adjustedFont);
     }
   }
@@ -447,13 +473,15 @@ void RhythmGameController::_ready() {
   comboTextLabel->add_theme_color_override("font_outline_color",
                                            Color(0, 0, 0, 0));
   comboTextLabel->add_theme_constant_override("outline_size", 0);
-  if (comboFont.is_valid()) {
+  if (comboFont.is_valid())
+  {
     Ref<FontVariation> adjustedFont = memnew(FontVariation);
     adjustedFont->set_base_font(comboFont);
 
     adjustedFont->set_variation_embolden(0.8);
 
-    if (comboTextLabel) {
+    if (comboTextLabel)
+    {
       comboTextLabel->add_theme_font_override("font", adjustedFont);
     }
   }
@@ -475,9 +503,12 @@ void RhythmGameController::_ready() {
       "res://resource-media/assets/gameplay/result-animation/animated/"
       "result_animations.tres");
 
-  if (frames.is_valid()) {
+  if (frames.is_valid())
+  {
     resultAnim->set_sprite_frames(frames);
-  } else {
+  }
+  else
+  {
     UtilityFunctions::print("Error: Could not load result_animations.tres!");
   }
   isGameEnded = false;
@@ -486,7 +517,8 @@ void RhythmGameController::_ready() {
 
   std::vector<Vector2> circlePositions = {Vector2(-693, 0), Vector2(693, 0)};
   double maxNoteTime = 0.0;
-  for (const auto &pos : circlePositions) {
+  for (const auto &pos : circlePositions)
+  {
     RhythmCircle *c = memnew(RhythmCircle);
     c->set_position(pos);
 
@@ -521,36 +553,49 @@ void RhythmGameController::_ready() {
   isAllPerfect = true;
   isFullCombo = true;
   String mapToLoad = "";
-  if (!GameGlobal::selectedMapPath.empty()) {
+  if (!GameGlobal::selectedMapPath.empty())
+  {
     mapToLoad = String(GameGlobal::selectedMapPath.c_str());
   }
 
-  if (mapToLoad == "") {
+  if (mapToLoad == "")
+  {
     mapToLoad = "res://resource-media/map/Template-ChronoR-BeatMap-hui.csv";
   }
 
   load_beatmap_from_csv(mapToLoad);
   String audioPathToLoad = "";
-  if (!GameGlobal::selectedAudioPath.empty()) {
+  if (!GameGlobal::selectedAudioPath.empty())
+  {
     audioPathToLoad = String(GameGlobal::selectedAudioPath.c_str());
   }
 
-  if (audioPathToLoad != "") {
+  if (audioPathToLoad != "")
+  {
 
     String globalAudioPath =
         ProjectSettings::get_singleton()->globalize_path(audioPathToLoad);
 
     UtilityFunctions::print("🎵 Playing Audio: ", globalAudioPath);
     audioEngine->play_audio(globalAudioPath);
-  } else {
+  }
+  else
+  {
     UtilityFunctions::print("⚠️ No Audio Path selected in GameGlobal!");
   }
 }
 
-void RhythmGameController::_process(double delta) {
-  if (audioEngine && audioEngine->is_playing()) {
+void RhythmGameController::_process(double delta)
+{
+  if (Engine::get_singleton()->is_editor_hint())
+  {
+    return;
+  }
+  if (audioEngine && audioEngine->is_playing())
+  {
     double rawTime = audioEngine->get_audio_time();
-    if (songDuration > 0.1) {
+    if (songDuration > 0.1)
+    {
       double progress = (rawTime / songDuration) * 100.0;
       progressBar->set_value(progress);
     }
@@ -562,9 +607,12 @@ void RhythmGameController::_process(double delta) {
     Vector2 targetLeftPos = leftCirclePosDefault;
     Vector2 targetRightPos = rightCirclePosDefault;
 
-    if (isLeftVisible && !isRightVisible) {
+    if (isLeftVisible && !isRightVisible)
+    {
       targetLeftPos = centerPos;
-    } else if (!isLeftVisible && isRightVisible) {
+    }
+    else if (!isLeftVisible && isRightVisible)
+    {
       targetRightPos = centerPos;
     }
 
@@ -577,29 +625,96 @@ void RhythmGameController::_process(double delta) {
     circles[0]->update_state(adjustedTime, delta);
     circles[1]->update_state(adjustedTime, delta);
 
-    for (auto *c : circles) {
+    for (auto *c : circles)
+    {
       c->update_state(adjustedTime, delta);
     }
-    if (!isGameEnded && songDuration > 0 && rawTime >= songDuration) {
+    if (!isGameEnded && songDuration > 0 && rawTime >= songDuration)
+    {
       isGameEnded = true;
-
-      Color themeColor = Color(1, 1, 1);
-      String text = "TUNING FINISH";
-
-      if (isAllPerfect) {
-        text = "ALL TUNED";
-        themeColor = Color(1, 0.9, 0.2);
-      } else if (isFullCombo) {
-        text = "FULL ADJUSTED";
-        themeColor = Color(0.2, 0.8, 1.0);
+      if (GameGlobal::modAutoplay)
+      {
+        UtilityFunctions::print(
+            "🤖 Autoplay Enabled: Score will NOT be saved.");
+        // ข้ามการบันทึกคะแนนไปเลย
       }
-      play_result_animation(text, themeColor);
+      else
+      {
+        Color themeColor = Color(1, 1, 1);
+        String text = "TUNING FAILED";
+
+        if (isAllPerfect)
+        {
+          text = "ALL TUNED";
+          themeColor = Color(1, 0.9, 0.2);
+        }
+        else if (isFullCombo)
+        {
+          text = "FULL ADJUSTED";
+          themeColor = Color(0.2, 0.8, 1.0);
+        }
+        else if (targetTuningGauge >= 65.0)
+        {
+          text = "TUNING FINISH";
+        }
+        play_result_animation(text, themeColor);
+
+        // 🔥 [เพิ่ม] รอให้ Animation เล่นให้เสร็จ (3 วินาที) แล้วค่อยไปหน้า Result
+        if (get_tree())
+        {
+          get_tree()->create_timer(3.0)->connect(
+              "timeout", Callable(this, "finalize_results"));
+        }
+      }
     }
-    if (comboTextLabel) {
-      if (comboLabel) {
+    if (comboTextLabel)
+    {
+      if (comboLabel)
+      {
         Color cText = comboTextLabel->get_modulate();
         cText.a = comboLabel->get_modulate().a;
         comboTextLabel->set_modulate(cText);
+      }
+    }
+    // 🔥 Animation และสีของ Tuning Gauge
+    currentTuningGauge =
+        Math::lerp(currentTuningGauge, targetTuningGauge, delta * 10.0);
+    if (tuningGaugeBar)
+    {
+      tuningGaugeBar->set_value(currentTuningGauge);
+
+      if (GameGlobal::modHPMode)
+      {
+        // สีตามเลือด (เขียว -> เหลือง -> แดง)
+        if (currentTuningGauge > 50.0)
+          tuningGaugeBar->set_modulate(Color(0.2, 1.0, 0.2));
+        else if (currentTuningGauge > 25.0)
+          tuningGaugeBar->set_modulate(Color(1.0, 0.8, 0.2));
+        else
+          tuningGaugeBar->set_modulate(Color(1.0, 0.2, 0.2));
+
+        // 💀 ตรวจสอบ Fail ทันทีเมื่อเกจหมด
+        if (currentTuningGauge <= 0.0 && !isGameEnded)
+        {
+          isGameEnded = true;
+          if (audioEngine)
+            audioEngine->stop(); // หยุดเพลง
+          UtilityFunctions::print("💀 HP DEPLETED! TRACK FAILED!");
+          if (get_tree())
+          {
+            get_tree()->create_timer(1.5)->connect(
+                "timeout", Callable(this, "finalize_results"));
+          }
+          // TODO: เรียกหน้าจอ Failed ขึ้นมาแสดง
+        }
+      }
+      else
+      {
+        // โหมดปกติ (เขียวเมื่อ >= 65)
+        if (currentTuningGauge >= 65.0)
+          tuningGaugeBar->set_modulate(Color(0.2, 1.0, 0.2));
+        else
+          tuningGaugeBar->set_modulate(Color(1.0, 0.8, 0.2));
       }
     }
   }
@@ -607,12 +722,14 @@ void RhythmGameController::_process(double delta) {
 
 double
 RhythmGameController::beat_to_time(double beat, double startBpm, double offset,
-                                   const std::vector<TimingPoint> &timings) {
+                                   const std::vector<TimingPoint> &timings)
+{
   double currentTime = offset;
   double currentBeat = 0.0;
   double currentBpm = startBpm;
 
-  for (const auto &tp : timings) {
+  for (const auto &tp : timings)
+  {
     if (beat < tp.beat)
       break;
 
@@ -629,12 +746,14 @@ RhythmGameController::beat_to_time(double beat, double startBpm, double offset,
   return currentTime;
 }
 
-void RhythmGameController::load_beatmap_from_csv(String path) {
+void RhythmGameController::load_beatmap_from_csv(String path)
+{
   if (circles.size() < 2)
     return;
 
   Ref<FileAccess> file = FileAccess::open(path, FileAccess::READ);
-  if (file.is_null()) {
+  if (file.is_null())
+  {
     UtilityFunctions::print("ERROR: Cannot open CSV: ", path);
     return;
   }
@@ -643,15 +762,18 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
   map.startBpm = 120.0;
   map.offset = 0.0;
   bool isNoteSection = false;
-  while (file->get_position() < file->get_length()) {
+  while (file->get_position() < file->get_length())
+  {
     PackedStringArray row = file->get_csv_line();
 
-    if (row[0] == "Note Data" || row[0] == "Beat") {
+    if (row[0] == "Note Data" || row[0] == "Beat")
+    {
       isNoteSection = true;
       continue;
     }
 
-    if (row.size() >= 2) {
+    if (row.size() >= 2)
+    {
       String key = row[0];
       String val = row[1];
       if (key == "Title")
@@ -674,8 +796,10 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
         map.description = val;
     }
 
-    if (row.size() >= 5) {
-      if (row[3] == "anomaly") {
+    if (row.size() >= 5)
+    {
+      if (row[3] == "anomaly")
+      {
         TimingPoint tp;
         tp.beat = row[0].to_float();
         tp.newBpm = row[4].to_float();
@@ -706,16 +830,19 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
   mapIllustrator = map.illustrator;
   mapDescription = map.description;
 
-  if (titleLabel) {
+  if (titleLabel)
+  {
     titleLabel->set_text(mapTitle);
   }
 
-  if (difficultyLabel) {
+  if (difficultyLabel)
+  {
     difficultyLabel->set_text(mapDifficulty + " " + mapLevel);
   }
 
   std::sort(map.timingPoints.begin(), map.timingPoints.end(),
-            [](const TimingPoint &a, const TimingPoint &b) {
+            [](const TimingPoint &a, const TimingPoint &b)
+            {
               return a.beat < b.beat;
             });
 
@@ -731,11 +858,14 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
 
   double calculatedMaxTime = 0.0;
   isNoteSection = false;
-  while (!file->eof_reached()) {
+  while (!file->eof_reached())
+  {
     PackedStringArray row = file->get_csv_line();
 
-    if (!isNoteSection) {
-      if (row[0] == "Beat" && row[1] == "Lane") {
+    if (!isNoteSection)
+    {
+      if (row[0] == "Beat" && row[1] == "Lane")
+      {
         isNoteSection = true;
       }
       continue;
@@ -759,7 +889,8 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
         beat_to_time(beat, map.startBpm, map.offset, map.timingPoints);
     double endTime = time;
 
-    if (typeStr == "hold") {
+    if (typeStr == "hold")
+    {
       if (param <= 0)
         param = 1.0;
       endTime = beat_to_time(beat + param, map.startBpm, map.offset,
@@ -767,7 +898,8 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
     }
 
     double thisNoteFinish = (typeStr == "hold") ? endTime : time;
-    if (thisNoteFinish > calculatedMaxTime) {
+    if (thisNoteFinish > calculatedMaxTime)
+    {
       calculatedMaxTime = thisNoteFinish;
     }
 
@@ -786,7 +918,8 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
       type = NOTE_CMD_SHOW;
     else if (typeStr == "hide")
       type = NOTE_CMD_HIDE;
-    if (type == NOTE_CMD_SHOW || type == NOTE_CMD_HIDE) {
+    if (type == NOTE_CMD_SHOW || type == NOTE_CMD_HIDE)
+    {
       CircleEvent evt;
       evt.time = time;
       evt.circleId = circleId;
@@ -797,17 +930,18 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
       if (circleId == 1 && circles.size() > 1)
         circles[1]->add_event(evt);
 
-
       continue;
     }
 
-
     NoteData newNote = {time, lane, type, param, param2, param3, endTime};
 
-    if (type == NOTE_ANORMALY) {
+    if (type == NOTE_ANORMALY)
+    {
       tempLeftNotes.push_back(newNote);
       tempRightNotes.push_back(newNote);
-    } else {
+    }
+    else
+    {
       if (circleId == 0)
         tempLeftNotes.push_back(newNote);
       else if (circleId == 1)
@@ -817,7 +951,8 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
 
   file->close();
 
-  auto sortRule = [](const NoteData &a, const NoteData &b) {
+  auto sortRule = [](const NoteData &a, const NoteData &b)
+  {
     if (Math::is_equal_approx(a.time, b.time))
       return a.type == NOTE_ANORMALY;
     return a.time < b.time;
@@ -829,28 +964,48 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
     leftCircle->add_note(n);
   for (const auto &n : tempRightNotes)
     rightCircle->add_note(n);
+  maxRawScore = 0;
   totalNotesInMap =
       circles[0]->get_notes_count() + circles[1]->get_notes_count();
-
-  totalNotesInMap = 0;
-  for (auto *c : circles) {
-    if (c)
-      totalNotesInMap += c->get_notes_count();
+  for (const auto &n : tempLeftNotes)
+  {
+    if (n.type == NOTE_HOLD)
+      maxRawScore += 4; // สมมติว่า Hold ได้หัว 2 หาง 2
+    else if (n.type == NOTE_ANORMALY) 
+      maxRawScore += 2; // นับคะแนนจากฝั่งซ้ายฝั่งเดียวพอ!
+    else
+      maxRawScore += 2;
   }
-
-  maxRawScore = totalNotesInMap * 2;
+  for (const auto &n : tempRightNotes)
+  {
+    if (n.type == NOTE_HOLD)
+      maxRawScore += 4;
+    else if (n.type == NOTE_ANORMALY) 
+      maxRawScore += 0;
+    else
+      maxRawScore += 2;
+  }
+  
   currentRawScore = 0;
   currentScore = 0;
   currentAccuracy = 100.0;
   hasMissed = false;
 
+  countPerfect = 0;
+  countGood = 0;
+  countMiss = 0;
+  maxComboReached = 0;
+  totalPlayableNotes = tempLeftNotes.size() + tempRightNotes.size();
   if (ratingLabel)
     ratingLabel->set_text("0.00");
   if (gradeLabel)
     gradeLabel->set_text("?");
-  if (calculatedMaxTime > 0) {
+  if (calculatedMaxTime > 0)
+  {
     songDuration = calculatedMaxTime + 0.2;
-  } else {
+  }
+  else
+  {
     songDuration = 120.0;
   }
 
@@ -858,22 +1013,26 @@ void RhythmGameController::load_beatmap_from_csv(String path) {
                           "s | Song Duration: ", songDuration, "s");
 }
 
-void RhythmGameController::_unhandled_input(const Ref<InputEvent> &event) {
+void RhythmGameController::_unhandled_input(const Ref<InputEvent> &event)
+{
 
   if (!audioEngine || !audioEngine->is_playing())
     return;
 
   Ref<InputEventKey> keyEvent = event;
 
-  if (keyEvent.is_valid() && !keyEvent->is_echo()) {
+  if (keyEvent.is_valid() && !keyEvent->is_echo())
+  {
     Key key = keyEvent->get_keycode();
 
-    if (key == KEY_ESCAPE && keyEvent->is_pressed()) {
+    if (key == KEY_ESCAPE && keyEvent->is_pressed())
+    {
       get_tree()->quit();
       return;
     }
 
-    if (key == KEY_QUOTELEFT && keyEvent->is_pressed()) {
+    if (key == KEY_QUOTELEFT && keyEvent->is_pressed())
+    {
       get_tree()->reload_current_scene();
       return;
     }
@@ -881,45 +1040,56 @@ void RhythmGameController::_unhandled_input(const Ref<InputEvent> &event) {
     double currentTime = audioEngine->get_audio_time();
     double adjustedTime = currentTime - userAudioOffset;
 
-    if (keyEvent->is_pressed()) {
+    if (keyEvent->is_pressed())
+    {
 
       RhythmCircle *targetCircle = nullptr;
       double globalMinDist = 999999.0;
 
-      for (auto *c : circles) {
+      for (auto *c : circles)
+      {
         double dist = c->get_closest_hittable_distance(adjustedTime);
 
-        if (dist != -1.0 && dist < globalMinDist) {
+        if (dist != -1.0 && dist < globalMinDist)
+        {
           globalMinDist = dist;
           targetCircle = c;
         }
       }
 
-      if (targetCircle) {
+      if (targetCircle)
+      {
         targetCircle->process_input(-1, adjustedTime);
 
-        for (auto *c : circles) {
-          if (c != targetCircle) {
+        for (auto *c : circles)
+        {
+          if (c != targetCircle)
+          {
             c->force_hit_anomaly(adjustedTime);
           }
         }
       }
-    } else {
+    }
+    else
+    {
       for (auto *c : circles)
         c->process_release(-1, adjustedTime);
     }
   }
 }
 
-void RhythmGameController::set_visible_window(double p_value) {
+void RhythmGameController::set_visible_window(double p_value)
+{
   visibleWindow = p_value;
-  for (RhythmCircle *c : circles) {
+  for (RhythmCircle *c : circles)
+  {
     if (c)
       c->set_visible_window(visibleWindow);
   }
 }
 
-void RhythmGameController::_on_hit_judgement(String result, int combo) {
+void RhythmGameController::_on_hit_judgement(String result, int combo)
+{
   int previousCombo = globalCombo;
 
   if (comboTween.is_valid())
@@ -927,7 +1097,8 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
 
   bool isComboBreak = (result == "MISS" && previousCombo > 0);
 
-  if (isComboBreak) {
+  if (isComboBreak)
+  {
     comboTween = create_tween();
     comboTween->set_parallel(true);
   }
@@ -936,20 +1107,34 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
   const int RAW_MISS = 0;
   int hitRaw = 0;
 
-  if (result == "MISS") {
+  if (result == "MISS")
+  {
     isAllPerfect = false;
     isFullCombo = false;
     hasMissed = true;
     globalCombo = 0;
     hitRaw = RAW_MISS;
-  } else {
-    if (result == "GOOD") {
+    countMiss++;
+  }
+  else
+  {
+    if (result == "GOOD")
+    {
       isAllPerfect = false;
       hitRaw = RAW_GOOD;
-    } else {
+      countGood++;
+    }
+    else
+    {
       hitRaw = RAW_PERFECT;
+      countPerfect++;
     }
     globalCombo++;
+
+    if (globalCombo > maxComboReached)
+    {
+      maxComboReached = globalCombo;
+    }
   }
 
   currentRawScore += hitRaw;
@@ -964,6 +1149,43 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
   if (accuracyLabel)
     accuracyLabel->set_text(String::num(currentAccuracy, 2) + "%");
 
+  // 🔥 [แก้ไข] แยกการคำนวณตาม Mod
+  if (GameGlobal::modHPMode)
+  {
+    // --- HP MODE ---
+    double healPerfect = 1.0; // กดเป๊ะ ฟื้นเลือดนิดหน่อย
+    double healGood = 0.5;
+    double missDamage = 15.0; // พลาดโดนตีแรงมาก (ปรับได้ตามต้องการ)
+
+    if (result == "PERFECT")
+      targetTuningGauge += healPerfect;
+    else if (result == "GOOD")
+      targetTuningGauge += healGood;
+    else if (result == "MISS")
+      targetTuningGauge -= missDamage;
+  }
+  else
+  {
+    // --- NORMAL MODE ---
+    double gainPerfect =
+        170.0 / (totalPlayableNotes > 0 ? totalPlayableNotes : 1);
+    double gainGood = gainPerfect * 0.75;
+    double missPenalty = gainPerfect * 2.0;
+
+    if (result == "PERFECT")
+      targetTuningGauge += gainPerfect;
+    else if (result == "GOOD")
+      targetTuningGauge += gainGood;
+    else if (result == "MISS")
+      targetTuningGauge -= missPenalty;
+  }
+
+  // ล็อกค่าไม่ให้ทะลุ 100 หรือติดลบ
+  if (targetTuningGauge > 100.0)
+    targetTuningGauge = 100.0;
+  if (targetTuningGauge < 0.0)
+    targetTuningGauge = 0.0;
+
   String currentGrade =
       calculate_grade(currentScore, currentAccuracy, isFullCombo, isAllPerfect);
 
@@ -971,11 +1193,13 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
   double currentRating =
       calculate_rating(currentScore, currentAccuracy, levelVal);
 
-  if (maxRawScore > 0) {
+  if (maxRawScore > 0)
+  {
     currentScore = (int)(((double)currentRawScore / maxRawScore) * 1000000.0);
   }
 
-  if (gradeLabel) {
+  if (gradeLabel)
+  {
     gradeLabel->set_text(currentGrade);
 
     if (currentGrade == "PS")
@@ -988,14 +1212,18 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
       gradeLabel->set_modulate(Color(1, 1, 1));
   }
 
-  if (ratingLabel) {
+  if (ratingLabel)
+  {
     ratingLabel->set_text(String::num(currentRating, 2));
   }
 
   Color targetColor;
-  if (result == "MISS") {
+  if (result == "MISS")
+  {
     targetColor = Color(1, 0.2, 0.2, 1);
-  } else {
+  }
+  else
+  {
     if (isAllPerfect)
       targetColor = Color(1, 0.9, 0.2, 1);
     else if (isFullCombo)
@@ -1004,18 +1232,25 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
       targetColor = Color(1, 1, 1, 1);
   }
 
-  if (comboLabel) {
-    if (result == "MISS") {
-      if (previousCombo > 0) {
+  if (comboLabel)
+  {
+    if (result == "MISS")
+    {
+      if (previousCombo > 0)
+      {
         comboLabel->set_modulate(targetColor);
         comboLabel->set_scale(Vector2(1.0, 1.0));
         comboTween->tween_property(comboLabel, "modulate:a", 0.0, 0.5);
-      } else {
+      }
+      else
+      {
         Color c = targetColor;
         c.a = 0.0;
         comboLabel->set_modulate(c);
       }
-    } else {
+    }
+    else
+    {
       comboLabel->set_text(String::num_int64(globalCombo));
       comboLabel->set_visible(true);
       comboLabel->set_modulate(targetColor);
@@ -1023,18 +1258,25 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
     }
   }
 
-  if (comboTextLabel) {
-    if (result == "MISS") {
-      if (previousCombo > 0) {
+  if (comboTextLabel)
+  {
+    if (result == "MISS")
+    {
+      if (previousCombo > 0)
+      {
         comboTextLabel->set_modulate(targetColor);
         comboTextLabel->set_scale(Vector2(1.0, 1.0));
         comboTween->tween_property(comboTextLabel, "modulate:a", 0.0, 0.5);
-      } else {
+      }
+      else
+      {
         Color c = targetColor;
         c.a = 0.0;
         comboTextLabel->set_modulate(c);
       }
-    } else {
+    }
+    else
+    {
       comboTextLabel->set_visible(true);
       comboTextLabel->set_modulate(targetColor);
       comboTextLabel->set_scale(Vector2(1.0, 1.0));
@@ -1042,7 +1284,8 @@ void RhythmGameController::_on_hit_judgement(String result, int combo) {
   }
 }
 void RhythmGameController::play_result_animation(String text,
-                                                 Color themeColor) {
+                                                 Color themeColor)
+{
   if (!resultAnim)
     return;
 
@@ -1070,15 +1313,20 @@ void RhythmGameController::play_result_animation(String text,
   Ref<AudioStream> targetSound;
   float finalVolumeDb = resultMasterVolumeDb;
 
-  if (text == "ALL TUNED") {
+  if (text == "ALL TUNED")
+  {
     resultAnim->play("all_tuned");
     targetSound = sfxAllTuned;
     finalVolumeDb += sfxAllTunedVolumeDb;
-  } else if (text == "FULL ADJUSTED") {
+  }
+  else if (text == "FULL ADJUSTED")
+  {
     resultAnim->play("full_adjusted");
     targetSound = sfxFullAdjusted;
     finalVolumeDb += sfxFullAdjustedVolumeDb;
-  } else {
+  }
+  else
+  {
     resultAnim->play("tuning_finish");
     targetSound = sfxTuningFinish;
     finalVolumeDb += sfxTuningFinishVolumeDb;
@@ -1088,14 +1336,17 @@ void RhythmGameController::play_result_animation(String text,
 
   Ref<SpriteFrames> frames = resultAnim->get_sprite_frames();
 
-  if (frames.is_valid() && frames->has_animation(animName)) {
+  if (frames.is_valid() && frames->has_animation(animName))
+  {
 
     Ref<Texture2D> firstFrameTex = frames->get_frame_texture(animName, 0);
 
-    if (firstFrameTex.is_valid()) {
+    if (firstFrameTex.is_valid())
+    {
       Size2 srcSize = firstFrameTex->get_size();
 
-      if (srcSize.x > 0) {
+      if (srcSize.x > 0)
+      {
         float targetWidth = currentScreenSize.x * 0.7;
         float scaleFactor = targetWidth / srcSize.x;
 
@@ -1106,7 +1357,8 @@ void RhythmGameController::play_result_animation(String text,
 
   resultAnim->set_position(currentScreenSize / 2.0);
 
-  if (targetSound.is_valid()) {
+  if (targetSound.is_valid())
+  {
     AudioStreamPlayer *sfxPlayer = memnew(AudioStreamPlayer);
     sfxPlayer->set_stream(targetSound);
 
@@ -1118,7 +1370,8 @@ void RhythmGameController::play_result_animation(String text,
   }
 }
 
-void RhythmGameController::reset_game_state() {
+void RhythmGameController::reset_game_state()
+{
   currentScore = 0;
   currentAccuracy = 100.0;
   totalNotesProcessed = 0;
@@ -1128,12 +1381,33 @@ void RhythmGameController::reset_game_state() {
   isAllPerfect = true;
   isFullCombo = true;
 
+  if (GameGlobal::modHPMode)
+  {
+    currentTuningGauge = 100.0;
+    targetTuningGauge = 100.0;
+    if (tuningGaugeBar)
+    {
+      tuningGaugeBar->set_value(100.0);
+      tuningGaugeBar->set_modulate(Color(0.2, 1.0, 0.2)); // เลือดเต็มสีเขียว
+    }
+  }
+  else
+  {
+    currentTuningGauge = 0.0;
+    targetTuningGauge = 0.0;
+    if (tuningGaugeBar)
+    {
+      tuningGaugeBar->set_value(0.0);
+      tuningGaugeBar->set_modulate(Color(1.0, 0.8, 0.2)); // ส้ม (ยังไม่ถึง 65%)
+    }
+  }
   if (accuracyLabel)
     accuracyLabel->set_text("100.00%");
 }
 
 double RhythmGameController::calculate_rating(int score, double accuracy,
-                                              double level) {
+                                              double level)
+{
 
   double factor = 0.0;
 
@@ -1152,7 +1426,8 @@ double RhythmGameController::calculate_rating(int score, double accuracy,
 }
 
 String RhythmGameController::calculate_grade(int score, double accuracy,
-                                             bool fc, bool ap) {
+                                             bool fc, bool ap)
+{
   if (ap || score == 1000000)
     return "PS";
 
@@ -1179,4 +1454,44 @@ String RhythmGameController::calculate_grade(int score, double accuracy,
     return "D";
 
   return "F";
+}
+
+// 🔥 [เพิ่ม] ฟังก์ชันสำหรับรวบรวมคะแนนและส่งต่อไปหน้า Result
+void RhythmGameController::finalize_results()
+{
+  // 1. ส่งข้อมูลเข้า Global
+  GameGlobal::lastTitle = mapTitle.utf8().get_data();
+  GameGlobal::lastArtist = mapArtist.utf8().get_data();
+  GameGlobal::lastDifficulty = (mapDifficulty + " " + mapLevel).utf8().get_data();
+
+  GameGlobal::lastScore = currentScore;
+  GameGlobal::lastPerfect = countPerfect;
+  GameGlobal::lastGood = countGood;
+  GameGlobal::lastMiss = countMiss;
+  GameGlobal::lastMaxCombo = maxComboReached;
+
+  GameGlobal::lastGrade = calculate_grade(currentScore, currentAccuracy, isFullCombo, isAllPerfect).utf8().get_data();
+
+  if (isAllPerfect)
+  {
+    GameGlobal::lastTuningStatus = "ALL TUNED";
+  }
+  else if (isFullCombo)
+  {
+    GameGlobal::lastTuningStatus = "ALL ADJUSTED";
+  }
+  else if (targetTuningGauge >= 65.0)
+  {
+    GameGlobal::lastTuningStatus =
+        "TUNING COMPLETE"; // (หรือ TUNING FINISH ตามที่คุณชอบ)
+  }
+  else
+  {
+    GameGlobal::lastTuningStatus = "TUNING FAILED";
+  }
+
+  // 2. เปลี่ยน Scene
+  // เปลี่ยน Path นี้ให้ตรงกับที่อยู่ไฟล์ ResultScreen ของคุณ
+  get_tree()->change_scene_to_file(
+      "res://resource-media/assets/scenes/result_screen.tscn");
 }

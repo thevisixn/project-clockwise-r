@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://bw6noq4kiklq"]
+[gd_scene format=3 uid="uid://bw6noq4kiklq"]
 
-[ext_resource type="Script" uid="uid://bl7lw6ju7p58q" path="res://hit_effect.gd" id="1_cf756"]
+[ext_resource type="Script" uid="uid://bl7lw6ju7p58q" path="res://resource-media/assets/scenes/gdscript/hit_effect.gd" id="1_cf756"]
 
 [sub_resource type="Gradient" id="Gradient_ojgpx"]
 offsets = PackedFloat32Array(0, 0.39181286)
@@ -29,7 +29,7 @@ scale_min = 0.29999998
 scale_max = 0.5
 scale_curve = SubResource("CurveTexture_cf756")
 
-[node name="GPUParticles2D" type="GPUParticles2D"]
+[node name="GPUParticles2D" type="GPUParticles2D" unique_id=1305583709]
 emitting = false
 amount = 16
 texture = SubResource("GradientTexture2D_cf756")

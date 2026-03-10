@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://ds81wlt7vcg4"]
+[gd_scene format=3 uid="uid://ds81wlt7vcg4"]
 
-[ext_resource type="Texture2D" uid="uid://bys6phhgowcu" path="res://resource-media/map/demo-map/hui/cover.jpg" id="1_5jt1t"]
+[ext_resource type="Texture2D" uid="uid://bys6phhgowcu" path="res://resource-media/map/hui/cover.jpg" id="1_5jt1t"]
 
-[node name="BeatmapItem" type="BeatmapItem" node_paths=PackedStringArray("ui_cover", "ui_button")]
+[node name="BeatmapItem" type="BeatmapItem" unique_id=1540223792 node_paths=PackedStringArray("ui_cover", "ui_button")]
 ui_cover = NodePath("Cover")
 ui_button = NodePath("ClickButton")
 custom_minimum_size = Vector2(200, 200)
@@ -11,7 +11,7 @@ offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Cover" type="TextureRect" parent="."]
+[node name="Cover" type="TextureRect" parent="." unique_id=2085788259]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 0
 offset_right = 40.0
@@ -20,7 +20,7 @@ texture = ExtResource("1_5jt1t")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="ClickButton" type="Button" parent="."]
+[node name="ClickButton" type="Button" parent="." unique_id=429682118]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 0
 offset_right = 200.0

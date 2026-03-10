@@ -9,7 +9,7 @@
 #include "BeatmapItem.h"
 #include "MainMenuController.h"
 #include "NavbarController.h"
-
+#include "ResultController.h"
 using namespace godot;
 
 void initialize_chronor_module(ModuleInitializationLevel p_level) {
@@ -25,6 +25,7 @@ void initialize_chronor_module(ModuleInitializationLevel p_level) {
     ClassDB::register_class<BeatmapItem>();
     ClassDB::register_class<MainMenuController>();
     ClassDB::register_class<NavbarController>();
+    ClassDB::register_class<ResultController>();
 }
 
 void uninitialize_chronor_module(ModuleInitializationLevel p_level) {

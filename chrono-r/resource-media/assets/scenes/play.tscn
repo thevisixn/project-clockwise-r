@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://8fdvrtca1dlu"]
+[gd_scene format=3 uid="uid://8fdvrtca1dlu"]
 
-[ext_resource type="PackedScene" uid="uid://db5wiuv5ue7ce" path="res://playfield.tscn" id="1_b5e5s"]
+[ext_resource type="PackedScene" uid="uid://db5wiuv5ue7ce" path="res://resource-media/assets/scenes/playfield.tscn" id="1_b5e5s"]
 
-[node name="Play" type="Node"]
+[node name="Play" type="Node" unique_id=1990139272]
 
-[node name="Playfield" parent="." instance=ExtResource("1_b5e5s")]
+[node name="Playfield" parent="." unique_id=41389766 instance=ExtResource("1_b5e5s")]
 position = Vector2(960, 540)
 scale = Vector2(0.5, 0.5)

@@ -15,10 +15,13 @@ namespace godot {
 
 class SongSelectController : public Control {
   GDCLASS(SongSelectController, Control)
-  std::vector<MapMetadata> mapList;
+  std::vector<SongGroup> songList;
 
 private:
   int currentSelectionIndex = -1;
+
+  int currentSongIndex = -1;
+  int currentDifficultyIndex = 0;
 
   Vector2 itemSize = Vector2(100, 800);
 
@@ -42,31 +45,31 @@ private:
   Label *gradeLabel = nullptr;
   TextureRect *infoBackgroundRect = nullptr;
 
+  TextureRect *textBackgroundRect = nullptr;
 
   Button *backButton = nullptr;
 
   GridContainer *gridContainer = nullptr;
   Ref<PackedScene> beatmapItemScene;
 
-  String gameScenePath = "res://resource-media/assets/scenes.tscn";
-
-  void scan_maps_in_folder(String folderPath);
+  String gameScenePath = "res://resource-media/assets/scenes/play.tscn  ";
   void update_info_panel();
   void populate_grid();
 
   void scan_maps_recursive(String folderPath);
 
-  void process_map_file(String filePath);
+  void process_map_file(String folderPath, String fileName);
 
+  Button *btnOpenModUI = nullptr;      // ปุ่มที่กดแล้ว Panel เด้งขึ้นมา
+  Button *btnCloseModUI = nullptr;     // ปุ่มปิด Panel (กากบาท)
+  Control *modPanel = nullptr;         // ตัวหน้าต่าง Panel สี่เหลี่ยม
+  Button *btnToggleAutoplay = nullptr; // ปุ่มเปิด/ปิด Autoplay
+  Button *btnToggleHPMode = nullptr;   // ปุ่มเปิด/ปิด HP Mode
 public:
-
-
   void _on_back_button_pressed();
-
 
   void set_back_button(Button *btn) { backButton = btn; }
   Button *get_back_button() const { return backButton; }
-
 
   void set_main_menu_scene_path(String path) { mainMenuScenePath = path; }
   String get_main_menu_scene_path() const { return mainMenuScenePath; }
@@ -116,8 +119,38 @@ public:
   void set_grid_separation_v(int val) { gridVSeparation = val; }
   int get_grid_separation_v() const { return gridVSeparation; }
 
+  void _unhandled_input(const Ref<InputEvent> &event) override;
+
+  void set_text_bg_rect(TextureRect *t) { textBackgroundRect = t; }
+  TextureRect *get_text_bg_rect() const { return textBackgroundRect; }
+
+  // 🔥 [เพิ่ม] Setter/Getter สำหรับ Mod UI
+  void set_btn_open_mod(Button *b) { btnOpenModUI = b; }
+  Button *get_btn_open_mod() const { return btnOpenModUI; }
+
+  void set_btn_close_mod(Button *b) { btnCloseModUI = b; }
+  Button *get_btn_close_mod() const { return btnCloseModUI; }
+
+  void set_mod_panel(Control *c) { modPanel = c; }
+  Control *get_mod_panel() const { return modPanel; }
+
+  void set_btn_toggle_autoplay(Button *b) { btnToggleAutoplay = b; }
+  Button *get_btn_toggle_autoplay() const { return btnToggleAutoplay; }
+
+  void set_btn_toggle_hpmode(Button *b) { btnToggleHPMode = b; }
+  Button *get_btn_toggle_hpmode() const { return btnToggleHPMode; }
+
+  // 🔥 [เพิ่ม] ฟังก์ชันรับ Event การกดปุ่ม
+  void _on_btn_open_mod_pressed();
+  void _on_btn_close_mod_pressed();
+  void _on_btn_toggle_autoplay_pressed();
+  void _on_btn_toggle_hpmode_pressed();
+
+  // 🔥 [เพิ่ม] ฟังก์ชันอัปเดตหน้าตาปุ่ม (เปลี่ยนสี/ข้อความ)
+  void update_mod_button_visuals();
+
 protected:
   static void _bind_methods();
 };
 
-}
+} // namespace godot

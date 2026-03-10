@@ -10,12 +10,12 @@
 namespace godot {
 
 class JuceAudioEngine : public Node {
-    GDCLASS(JuceAudioEngine, Node) 
+    GDCLASS(JuceAudioEngine, Node)
 
 private:
     juce::AudioDeviceManager deviceManager;
     juce::AudioFormatManager formatManager;
-    std::unique_ptr<juce::AudioFormatReaderSource> readerSource; 
+    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
     juce::AudioSourcePlayer sourcePlayer;
 protected:
@@ -28,6 +28,8 @@ public:
     double get_audio_time();
     double get_audio_length();
     bool is_playing();
+
+    void stop();
 };
 
 }

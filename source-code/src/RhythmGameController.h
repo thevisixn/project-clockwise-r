@@ -113,17 +113,23 @@ private:
   Label *titleLabel = nullptr;
   Label *difficultyLabel = nullptr;
 
-
   Vector2 leftCirclePosDefault = Vector2(-693, 0);
   Vector2 rightCirclePosDefault = Vector2(693, 0);
   Vector2 centerPos = Vector2(0, 0);
 
-
   bool isLeftActive = true;
   bool isRightActive = true;
 
-
   double circleFadeSpeed = 2.0;
+
+  int totalPlayableNotes = 0;            // จำนวนโน้ตทั้งหมดในเพลง
+  double currentTuningGauge = 0.0;       // ค่าเกจที่แสดงผล (ทำ Animation)
+  double targetTuningGauge = 0.0;        // ค่าเกจจริงๆ
+  ProgressBar *tuningGaugeBar = nullptr; // UI หลอดเกจ
+  int countPerfect = 0;
+  int countGood = 0;
+  int countMiss = 0;
+  int maxComboReached = 0;
 
 protected:
   static void _bind_methods();
@@ -158,7 +164,6 @@ public:
 
   void set_tex_hold_tail(const Ref<Texture2D> &p_tex) { texHoldTail = p_tex; }
   Ref<Texture2D> get_tex_hold_tail() const { return texHoldTail; }
-
 
   void set_tex_center_cap(const Ref<Texture2D> &p_tex) { texCenterCap = p_tex; }
   Ref<Texture2D> get_tex_center_cap() const { return texCenterCap; }
@@ -201,8 +206,6 @@ public:
     texBackground = p_tex;
   }
   Ref<Texture2D> get_tex_background() const { return texBackground; }
-
-
 
   void set_circle_fade_speed(double val);
   double get_circle_fade_speed() const { return circleFadeSpeed; }
@@ -291,6 +294,11 @@ public:
 
   void set_difficulty_label(Label *p_label) { difficultyLabel = p_label; }
   Label *get_difficulty_label() const { return difficultyLabel; }
+
+  void set_tuning_gauge_bar(ProgressBar *p_bar) { tuningGaugeBar = p_bar; }
+  ProgressBar *get_tuning_gauge_bar() const { return tuningGaugeBar; }
+
+  void finalize_results();
 };
 
-}
+} // namespace godot

@@ -1,6 +1,6 @@
 #include "NavbarController.h"
 #include <godot_cpp/variant/utility_functions.hpp>
-
+#include <godot_cpp/classes/engine.hpp>
 using namespace godot;
 
 NavbarController::NavbarController() {}
@@ -46,6 +46,9 @@ void NavbarController::_bind_methods() {
 }
 
 void NavbarController::_ready() {
+    if (Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
     if (mainMenuBtn) mainMenuBtn->connect("pressed", Callable(this, "_on_main_menu_pressed"));
     if (settingsBtn) settingsBtn->connect("pressed", Callable(this, "_on_settings_pressed"));
     if (playBtn) playBtn->connect("pressed", Callable(this, "_on_play_pressed"));

@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ovbg268xm5jy" path="res://resource-media/assets/interface/song-select/tittle-ui-bg.svg" id="3_sbnq3"]
 [ext_resource type="Texture2D" uid="uid://berbqxb37c1r7" path="res://resource-media/assets/interface/song-select/artist-ui-bg.svg" id="5_7wlwy"]
 [ext_resource type="Texture2D" uid="uid://leilw8gglf0r" path="res://resource-media/assets/interface/song-select/diff-ui-bg.svg" id="6_tf8ir"]
-[ext_resource type="Texture2D" uid="uid://bfgrf60trgdsi" path="res://resource-media/map/demo-map/bitter-times/cover.jpg" id="8_tf8ir"]
+[ext_resource type="Texture2D" uid="uid://bfgrf60trgdsi" path="res://resource-media/map/bitter-times/cover.jpg" id="8_tf8ir"]
 [ext_resource type="Texture2D" uid="uid://bdopbov0jn887" path="res://resource-media/assets/interface/icon/backUI-Btn.svg" id="9_28xip"]
 [ext_resource type="Texture2D" uid="uid://4u6p4xnbragq" path="res://resource-media/assets/interface/icon/modUI-Btn.svg" id="9_n70jw"]
 [ext_resource type="PackedScene" uid="uid://bcgm107hlicuk" path="res://resource-media/assets/scenes/top_navbar.tscn" id="10_n70jw"]
@@ -27,6 +27,126 @@ outline_size = 3
 font = ExtResource("1_g4dtn")
 font_size = 35
 outline_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ciym2"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.7, 0.11900001, 0.11900001, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ngt4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.44, 0.07480001, 0.07480001, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fkm8q"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.71, 0.3976, 0.3976, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bnth"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.78039217, 0.78039217, 0.78039217, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qid73"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.4862745, 0.7019608, 0.11764706, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ch3dw"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.30609334, 0.44, 0.07480001, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ardce"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.5954533, 0.71, 0.3976, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cuuhc"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.7, 0.24080002, 0.126, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4ya3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.44, 0.14784001, 0.07480001, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0uvs"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.71, 0.46008, 0.3976, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_tf8ir"]
 font = ExtResource("1_g4dtn")
@@ -69,18 +189,6 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bnth"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.78039217, 0.78039217, 0.78039217, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-
 [node name="SongSelection" type="Control" unique_id=529953651]
 layout_mode = 3
 anchors_preset = 15
@@ -116,7 +224,7 @@ offset_bottom = 1080.0
 texture = ExtResource("2_2q4xr")
 expand_mode = 1
 
-[node name="SongSelectController" type="SongSelectController" parent="." unique_id=424426286 node_paths=PackedStringArray("ui_back_btn", "ui_grid", "ui_title", "ui_artist", "ui_difficulty", "ui_score", "ui_grade", "ui_info_bg")]
+[node name="SongSelectController" type="SongSelectController" parent="." unique_id=424426286 node_paths=PackedStringArray("ui_back_btn", "ui_grid", "ui_title", "ui_artist", "ui_difficulty", "ui_score", "ui_grade", "ui_info_bg", "ui_text_bg", "ui_btn_open_mod", "ui_btn_close_mod", "ui_mod_panel", "ui_btn_toggle_autoplay", "ui_btn_toggle_hpmode")]
 ui_back_btn = NodePath("BackB")
 grid_separation_h = 9
 grid_separation_v = -551
@@ -129,6 +237,12 @@ game_scene_path = "uid://8fdvrtca1dlu"
 ui_score = NodePath("InfoBackground/BestScoreLabel")
 ui_grade = NodePath("InfoBackground/GradeLabel")
 ui_info_bg = NodePath("InfoBackground")
+ui_text_bg = NodePath("Diff-BG")
+ui_btn_open_mod = NodePath("ModB")
+ui_btn_close_mod = NodePath("ModPanel/ModBC")
+ui_mod_panel = NodePath("ModPanel")
+ui_btn_toggle_autoplay = NodePath("ModPanel/AutoBtn")
+ui_btn_toggle_hpmode = NodePath("ModPanel/HP-Btn")
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 0
 offset_right = 1920.0
@@ -173,7 +287,7 @@ label_settings = SubResource("LabelSettings_28xip")
 vertical_alignment = 2
 
 [node name="Diff-BG" type="TextureRect" parent="SongSelectController" unique_id=389588563]
-self_modulate = Color(1, 0.78431374, 0, 1)
+self_modulate = Color(1, 0.6, 0, 1)
 z_index = -1
 layout_mode = 0
 offset_left = 39.0
@@ -183,7 +297,7 @@ offset_bottom = 584.0
 texture = ExtResource("6_tf8ir")
 
 [node name="DiffLabel" type="Label" parent="SongSelectController/Diff-BG" unique_id=84786172]
-z_index = 3
+z_index = 1
 layout_mode = 0
 offset_left = 12.0
 offset_top = 19.0
@@ -192,6 +306,66 @@ offset_bottom = 63.0
 text = "Normal 10"
 label_settings = SubResource("LabelSettings_n70jw")
 vertical_alignment = 2
+
+[node name="ModPanel" type="TextureRect" parent="SongSelectController" unique_id=1791554264]
+visible = false
+layout_mode = 0
+offset_left = 39.0
+offset_top = 137.0
+offset_right = 978.0
+offset_bottom = 912.0
+texture = ExtResource("3_gs6nk")
+
+[node name="ModBC" type="Button" parent="SongSelectController/ModPanel" unique_id=695682554]
+z_index = 1
+layout_mode = 0
+offset_left = 674.0
+offset_top = 639.0
+offset_right = 924.0
+offset_bottom = 764.0
+theme_override_colors/font_outline_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_g4dtn")
+theme_override_font_sizes/font_size = 37
+theme_override_styles/normal = SubResource("StyleBoxFlat_ciym2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0ngt4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fkm8q")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_1bnth")
+text = "Close"
+
+[node name="AutoBtn" type="Button" parent="SongSelectController/ModPanel" unique_id=124672841]
+z_index = 1
+layout_mode = 0
+offset_left = 23.0
+offset_top = 221.0
+offset_right = 273.0
+offset_bottom = 346.0
+theme_override_colors/font_outline_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_g4dtn")
+theme_override_font_sizes/font_size = 37
+theme_override_styles/normal = SubResource("StyleBoxFlat_qid73")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ch3dw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ardce")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_1bnth")
+text = "Autoplay : OFF"
+
+[node name="HP-Btn" type="Button" parent="SongSelectController/ModPanel" unique_id=1320597601]
+z_index = 1
+layout_mode = 0
+offset_left = 305.0
+offset_top = 221.0
+offset_right = 555.0
+offset_bottom = 346.0
+theme_override_colors/font_outline_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_g4dtn")
+theme_override_font_sizes/font_size = 37
+theme_override_styles/normal = SubResource("StyleBoxFlat_cuuhc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m4ya3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_d0uvs")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_1bnth")
+text = "HP Mode : OFF"
 
 [node name="InfoBackground" type="TextureRect" parent="SongSelectController" unique_id=216535607]
 self_modulate = Color(0.21, 0.21, 0.21, 1)
@@ -267,8 +441,7 @@ icon = ExtResource("9_28xip")
 [node name="ScrollContainer" type="ScrollContainer" parent="SongSelectController" unique_id=1880942177]
 z_index = 3
 custom_minimum_size = Vector2(100, 0)
-layout_mode = 1
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1147.0
@@ -287,4 +460,10 @@ theme_override_constants/v_separation = -551
 columns = 3
 
 [node name="TopNavbar" parent="." unique_id=1651173040 instance=ExtResource("10_n70jw")]
-layout_mode = 1
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 960.0
+offset_right = 960.0
+grow_horizontal = 1

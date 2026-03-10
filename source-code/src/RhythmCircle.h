@@ -51,7 +51,6 @@ private:
   Ref<Texture2D> texAnomaly;
   Ref<Texture2D> texHoldTail;
   Ref<Texture2D> texHoldCap;
-  // 🔥 [เพิ่ม] ตัวแปรสำหรับรูปหมุดตรงกลาง
   Ref<Texture2D> texCenterCap;
   Sprite2D *centerCapSprite = nullptr;
 
@@ -72,7 +71,7 @@ private:
 
   double currentAlpha = 1.0;
   double targetAlpha = 1.0;
-  bool isActive = true; // สถานะว่าวงกลมนี้กำลัง Active หรือไม่
+  bool isActive = true;
 
 protected:
   static void _bind_methods();

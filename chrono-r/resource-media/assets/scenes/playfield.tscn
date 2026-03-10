@@ -9,11 +9,13 @@
 [ext_resource type="AudioStream" uid="uid://pxtq3mgeiju1" path="res://resource-media/sound/sfx/gameplay/hitsound/reversesfx.wav" id="6_m6oq0"]
 [ext_resource type="PackedScene" uid="uid://bw6noq4kiklq" path="res://resource-media/assets/scenes/HitEffect.tscn" id="7_xssgh"]
 [ext_resource type="AudioStream" uid="uid://wya5n12wofaj" path="res://resource-media/sound/sfx/gameplay/hitsound/overclock-heatsfx.wav" id="8_l8man"]
-[ext_resource type="Texture2D" uid="uid://cq5fuef2vb688" path="res://resource-media/assets/bg_assets/background.jpg" id="10_7ljjp"]
 [ext_resource type="AudioStream" uid="uid://b2lpp6y6mswho" path="res://resource-media/sound/sfx/gameplay/result/atd-sfx.wav" id="10_pu6bo"]
 [ext_resource type="AudioStream" uid="uid://dl5est3vs3ysu" path="res://resource-media/sound/sfx/gameplay/result/aad-sfx.wav" id="11_5kvcy"]
 [ext_resource type="AudioStream" uid="uid://cq7bulghvhe3w" path="res://resource-media/sound/sfx/gameplay/result/tfin-sfx.wav" id="12_khvcg"]
 [ext_resource type="FontFile" uid="uid://dfynnome5cklg" path="res://resource-media/fonts/Quicksand.ttf" id="15_5kvcy"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ajxjl"]
+load_path = "res://.godot/imported/background.jpg-0a4b3a38797ac81073e31c3a25c50703.ctex"
 
 [sub_resource type="LabelSettings" id="LabelSettings_khvcg"]
 font = ExtResource("15_5kvcy")
@@ -29,6 +31,15 @@ outline_size = 3
 font = ExtResource("15_5kvcy")
 font_size = 50
 outline_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rpov8"]
+bg_color = Color(0.5163938, 0.5163938, 0.51639366, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yvcxw"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itlug"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="Playfield" type="Node2D" unique_id=1422169347]
 scale = Vector2(0.3, 0.3)
@@ -47,7 +58,7 @@ hit_effect_scene = ExtResource("7_xssgh")
 tex_center_cap = ExtResource("4_rpov8")
 visible = false
 
-[node name="RhythmGameController" type="RhythmGameController" parent="." unique_id=1770906535 node_paths=PackedStringArray("accuracy_label", "title_label", "difficulty_label", "score_label")]
+[node name="RhythmGameController" type="RhythmGameController" parent="." unique_id=1770906535 node_paths=PackedStringArray("accuracy_label", "title_label", "difficulty_label", "score_label", "ui_tuning_gauge")]
 accuracy_label = NodePath("../CanvasLayer/AccuracyLabel")
 title_label = NodePath("../CanvasLayer/TitleLabel")
 difficulty_label = NodePath("../CanvasLayer/DiffLabel")
@@ -77,11 +88,11 @@ vol_sfx_hold_db = 10.0
 vol_sfx_reverse_db = 5.0
 vol_sfx_overclock_db = 3.0
 vol_sfx_overheat_db = 3.0
-tex_background = ExtResource("10_7ljjp")
+tex_background = SubResource("CompressedTexture2D_ajxjl")
 sfx_all_tuned = ExtResource("10_pu6bo")
 sfx_full_adjusted = ExtResource("11_5kvcy")
 sfx_tuning_finish = ExtResource("12_khvcg")
-circle_lookahead_beats = 12.0
+ui_tuning_gauge = NodePath("../CanvasLayer/Gauge")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=275711810]
 
@@ -140,3 +151,20 @@ grow_horizontal = 0
 text = "0.0%"
 label_settings = SubResource("LabelSettings_5kvcy")
 horizontal_alignment = 2
+
+[node name="Gauge" type="ProgressBar" parent="CanvasLayer" unique_id=1303506989]
+modulate = Color(1, 0.8, 0.2, 1)
+offset_left = 1641.0
+offset_top = 198.0
+offset_right = 1884.0
+offset_bottom = 232.0
+theme_override_styles/background = SubResource("StyleBoxFlat_rpov8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_yvcxw")
+show_percentage = false
+
+[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=638508357]
+offset_left = 1797.0
+offset_top = 193.0
+offset_right = 1800.0
+offset_bottom = 237.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_itlug")
